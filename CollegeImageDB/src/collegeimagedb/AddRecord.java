@@ -9,6 +9,7 @@ import Model.Database;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCursor;
+import java.util.ArrayList;
 import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,12 +23,13 @@ public class AddRecord extends javax.swing.JFrame {
     /**
      * Creates new form AddRecord
      */
+    Database db = new Database();
     public AddRecord() {
-        Database db = new Database();
+        
         boolean status = db.Connect("localhost", 27017);
         initComponents();
        
-        Set<String> collections = db.getCollections();
+        Set<String> collections = db.getAllCollections();
         collectionList.addItem("");
         for(String coll : collections){
             collectionList.addItem(coll.toString());
@@ -51,7 +53,7 @@ public class AddRecord extends javax.swing.JFrame {
 
         collectionList = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         addPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -59,6 +61,12 @@ public class AddRecord extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         softwareField = new javax.swing.JTextField();
         versionField = new javax.swing.JTextField();
+        toolfield1 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        toolfield2 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        toolfield3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,10 +78,10 @@ public class AddRecord extends javax.swing.JFrame {
 
         jLabel1.setText("Add Record");
 
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
@@ -85,6 +93,18 @@ public class AddRecord extends javax.swing.JFrame {
 
         jLabel4.setText("Additional Tools:");
 
+        jLabel5.setText("Tool #1");
+
+        jLabel6.setText("Tool #2");
+
+        toolfield2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toolfield2ActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Tool #3");
+
         javax.swing.GroupLayout addPanelLayout = new javax.swing.GroupLayout(addPanel);
         addPanel.setLayout(addPanelLayout);
         addPanelLayout.setHorizontalGroup(
@@ -92,6 +112,18 @@ public class AddRecord extends javax.swing.JFrame {
             .addGroup(addPanelLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(35, 35, 35)
+                        .addComponent(toolfield3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(35, 35, 35)
+                        .addComponent(toolfield2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(addPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(35, 35, 35)
+                        .addComponent(toolfield1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel4)
                     .addGroup(addPanelLayout.createSequentialGroup()
                         .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,7 +133,7 @@ public class AddRecord extends javax.swing.JFrame {
                         .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(softwareField)
                             .addComponent(versionField, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))))
-                .addContainerGap(260, Short.MAX_VALUE))
+                .addContainerGap(258, Short.MAX_VALUE))
         );
         addPanelLayout.setVerticalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,9 +146,21 @@ public class AddRecord extends javax.swing.JFrame {
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(versionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel4)
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(toolfield1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(toolfield2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(toolfield3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -136,7 +180,7 @@ public class AddRecord extends javax.swing.JFrame {
                             .addComponent(addPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(addButton)))
                 .addGap(48, 48, 48))
         );
         layout.setVerticalGroup(
@@ -146,11 +190,11 @@ public class AddRecord extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(collectionList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(addPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(addButton)
                     .addComponent(jButton2))
                 .addGap(25, 25, 25))
         );
@@ -172,14 +216,60 @@ public class AddRecord extends javax.swing.JFrame {
         
     }//GEN-LAST:event_collectionListActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
-        
-        
-        
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        boolean missingSoftware = true;
+        boolean missingVersion = true;
+        String softwareName = null;
+        String vNumber = null;
+        String[] tools = new String [3];
+        Object selected = collectionList.getSelectedItem();
+        if(selected.toString().equals("software"))
+        {
+            
+            if(softwareField.getText().toString() != "")
+            {
+                softwareName = softwareField.getText().toString();
+                missingSoftware = false;
+            }
+            if(versionField.getText().toString() != "")
+            {
+                vNumber = softwareField.getText().toString();
+                missingVersion = false;
+            }
+            if(toolfield1.getText().toString() != "")
+            {
+                tools[0] = toolfield2.getText().toString();
+                if(toolfield2.getText().toString() != "")
+            {
+                tools[1] = toolfield2.getText().toString();
+                if(toolfield3.getText().toString() != "")
+            {
+                tools[2] = toolfield3.getText().toString();
+            }
+            }
+            }
+            
+        if(missingSoftware == true || missingVersion == true)
+        {
+            System.out.println("Missing a mandatory field, check Software or version fields are not empty.");
+        }
+        else{
+            if(tools[0] == "")
+            {
+                boolean success = db.addRecordSoftware(softwareName, vNumber);
+            }
+            else{
+                boolean success = db.addRecordSoftware(softwareName, vNumber, tools);
+            }
+        }
+            
+        } 
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void toolfield2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toolfield2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_toolfield2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,15 +307,21 @@ public class AddRecord extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
     private javax.swing.JPanel addPanel;
     private javax.swing.JComboBox<String> collectionList;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField softwareField;
+    private javax.swing.JTextField toolfield1;
+    private javax.swing.JTextField toolfield2;
+    private javax.swing.JTextField toolfield3;
     private javax.swing.JTextField versionField;
     // End of variables declaration//GEN-END:variables
 }
