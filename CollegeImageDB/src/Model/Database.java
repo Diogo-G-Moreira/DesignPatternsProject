@@ -73,7 +73,7 @@ public class Database {
          doc.put("title",software);
          doc.put("version",version);
          if(tools != null)
-             doc.put("tools",tools);
+         {doc.put("tools",tools);}
          collection.insert(doc);
          success = true;
          }catch(MongoException e)
