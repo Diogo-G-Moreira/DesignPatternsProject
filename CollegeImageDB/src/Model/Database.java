@@ -8,6 +8,8 @@ package Model;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCursor;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
+import javax.swing.text.Document;
 
 /**
  *
@@ -50,6 +53,28 @@ public class Database {
         MongoCursor<String> dbsCursor = mongo.listDatabaseNames().iterator();
         
         return dbsCursor;
+        
+    }
+    
+        public ArrayList<DBObject> getSoftware ()
+    {
+        
+        DBCollection collection =  getCollection("school");
+        BasicDBObject query = new BasicDBObject();
+        BasicDBObject fields = new BasicDBObject();
+        ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
+        
+        fields.put("title",1);
+        fields.put("version",1);
+        
+        DBCursor cursor = collection.find(query, fields);
+        while (cursor.hasNext())
+        {
+            DBObject software = cursor.next();
+            softwareList.add(software);
+        }
+
+        return softwareList;
         
     }
     

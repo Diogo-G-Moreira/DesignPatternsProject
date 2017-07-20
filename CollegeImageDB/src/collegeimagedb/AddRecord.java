@@ -7,10 +7,12 @@ package collegeimagedb;
 
 import Model.Database;
 import com.mongodb.DB;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCursor;
 import java.util.ArrayList;
 import java.util.Set;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,11 +27,31 @@ public class AddRecord extends javax.swing.JFrame {
      * Creates new form AddRecord
      */
     Database db = new Database();
+    ArrayList<String> listSoftware; 
+    
     public AddRecord() {
         
         boolean status = db.Connect("localhost", 27017);
+
         initComponents();
-       
+		System.out.println("Hre now");
+        ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
+		softwareList = db.getSoftware();
+        listSoftware = new ArrayList<String>();
+        System.out.println(softwareList);
+       DefaultListModel listModel = new DefaultListModel();
+        for(int i = 0; i < softwareList.size(); i++)
+        {
+            System.out.println(i);
+            String option = softwareList.get(i).get("title").toString() + " - " +
+                    softwareList.get(i).get("version").toString();
+            System.out.println(option);
+            listSoftware.add(option);
+            
+            listModel.addElement(option);
+        }
+             System.out.println("End");
+        softwareJList.setModel(listModel);
         /*Object selected = collectionList.getSelectedItem();
         if(selected.toString().equals("software"))
         {
@@ -76,7 +98,7 @@ public class AddRecord extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        softwareJList = new javax.swing.JList<>();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -219,12 +241,12 @@ public class AddRecord extends javax.swing.JFrame {
 
         jLabel10.setText("Machine");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        softwareJList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = {  };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(softwareJList);
 
         jLabel11.setText("Software");
 
@@ -256,21 +278,20 @@ public class AddRecord extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(0, 113, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel10)
                             .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTextField3)
                             .addComponent(jTextField1)
-                            .addComponent(jComboBox1, 0, 80, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jComboBox1, 0, 80, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel12)
@@ -286,7 +307,7 @@ public class AddRecord extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jTextField5))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGap(0, 11, Short.MAX_VALUE)
                                 .addComponent(jLabel15)
                                 .addGap(18, 18, 18)
                                 .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -329,14 +350,19 @@ public class AddRecord extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addGap(64, 64, 64))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(jLabel16))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(76, 76, 76)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         jTabbedPane1.addTab("Images", jPanel1);
@@ -485,10 +511,9 @@ public class AddRecord extends javax.swing.JFrame {
                                 .addComponent(capacityField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(91, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(classroomField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(classroomField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -632,10 +657,13 @@ public class AddRecord extends javax.swing.JFrame {
             }
             video = videoCheckbox.isSelected();
             System.out.println("Comment");
-            if(commentTextArea.getText().trim().length() > 0)
+            System.out.println(commentTextArea.getText().trim() );
+            
+            if(commentTextArea.getText()!=null||!commentTextArea.getText().isEmpty())
             {
                 System.out.println("yes Comment");
                 comment = commentTextArea.getText().toString();
+            } else {
             }
             
             if(missingClassroom == true || missingCapacity == true)
@@ -643,7 +671,7 @@ public class AddRecord extends javax.swing.JFrame {
                 System.out.println("Missing a mandatory field, check Software or version fields are not empty.");
             }
             else{
-                if(comment.length() > 0 )
+                if(commentTextArea.getText()==null || commentTextArea.getText().isEmpty())
                 {
                     System.out.println("No Comment");
                     boolean success = db.addRecordLocation(classroom, capacity, video);
@@ -742,7 +770,6 @@ public class AddRecord extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -767,6 +794,7 @@ public class AddRecord extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField softwareField;
+    private javax.swing.JList<String> softwareJList;
     private javax.swing.JTextField toolfield1;
     private javax.swing.JTextField toolfield2;
     private javax.swing.JTextField toolfield3;
