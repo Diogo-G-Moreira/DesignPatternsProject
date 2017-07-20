@@ -28,6 +28,7 @@ public class AddRecord extends javax.swing.JFrame {
      */
     Database db = new Database();
     ArrayList<String> listSoftware; 
+    ArrayList<String> listClassroom; 
     
     public AddRecord() {
         
@@ -52,6 +53,21 @@ public class AddRecord extends javax.swing.JFrame {
         }
              System.out.println("End");
         softwareJList.setModel(listModel);
+        
+         ArrayList<DBObject> classroomList = new ArrayList<DBObject>();
+		classroomList = db.getLocation();
+        listClassroom = new ArrayList<String>();
+        System.out.println(classroomList);
+        for(int i = 0; i < classroomList.size(); i++)
+        {
+            String option = classroomList.get(i).get("classroom").toString();
+            System.out.println(option);
+            listClassroom.add(option);
+            
+            locationComboBox.addItem(option);
+        }
+             System.out.println("End");
+
         /*Object selected = collectionList.getSelectedItem();
         if(selected.toString().equals("software"))
         {
@@ -112,7 +128,7 @@ public class AddRecord extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        locationComboBox = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         jTextField10 = new javax.swing.JTextField();
@@ -290,7 +306,7 @@ public class AddRecord extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTextField3)
                             .addComponent(jTextField1)
-                            .addComponent(jComboBox1, 0, 80, Short.MAX_VALUE))))
+                            .addComponent(locationComboBox, 0, 80, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -333,7 +349,7 @@ public class AddRecord extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(locationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                         .addComponent(jLabel11))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -740,7 +756,6 @@ public class AddRecord extends javax.swing.JFrame {
     private javax.swing.JTextField classroomField;
     private javax.swing.JTextArea commentTextArea;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -793,6 +808,7 @@ public class AddRecord extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JComboBox<String> locationComboBox;
     private javax.swing.JTextField softwareField;
     private javax.swing.JList<String> softwareJList;
     private javax.swing.JTextField toolfield1;

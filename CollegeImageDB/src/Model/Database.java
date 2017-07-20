@@ -77,6 +77,27 @@ public class Database {
         return softwareList;
         
     }
+        
+    public ArrayList<DBObject> getLocation ()
+    {
+        
+        DBCollection collection =  getCollection("schoolLocation");
+        BasicDBObject query = new BasicDBObject();
+        BasicDBObject fields = new BasicDBObject();
+        ArrayList<DBObject> classroomList = new ArrayList<DBObject>();
+        
+        fields.put("classroom",1);
+        
+        DBCursor cursor = collection.find(query, fields);
+        while (cursor.hasNext())
+        {
+            DBObject classroom = cursor.next();
+            classroomList.add(classroom);
+        }
+
+        return classroomList;
+        
+    }
     
     public Set<String> getAllCollections()
     {
