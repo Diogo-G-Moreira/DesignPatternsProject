@@ -11,6 +11,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCursor;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
@@ -57,9 +60,9 @@ public class Database {
         return collections;
     }
     
-    public DBCollection getCollection()
+    public DBCollection getCollection(String name)
     {
-        DBCollection collection = db.getCollection("school");
+        DBCollection collection = db.getCollection(name);
         
         return collection;
     }
@@ -68,7 +71,7 @@ public class Database {
      {
          boolean success = false;
          try{
-         DBCollection collection = getCollection();
+         DBCollection collection = getCollection("school");
          BasicDBObject doc = new BasicDBObject();
          doc.put("title",software);
          doc.put("version",version);
@@ -91,4 +94,42 @@ public class Database {
          return success;
      }
      
+     public boolean addRecordLocation (String classroom, String capacity, boolean video, String comment)
+     {
+         boolean success = false;
+         try{
+         DBCollection collection = getCollection("schoolLocation");
+         BasicDBObject doc = new BasicDBObject();
+         doc.put("classroom",classroom);
+         doc.put("version",capacity);
+         doc.put("videoconferencing",video);
+         if(comment != null)
+         {
+             List<BasicDBObject> allComments = new ArrayList<BasicDBObject>();  
+             BasicDBObject doc2 = new BasicDBObject();
+               doc2.put("comment", comment);
+               Calendar calendar = Calendar.getInstance();
+               SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+               doc2.put("date",dateFormat.format(calendar.getTime()));
+              allComments.add(doc2);
+              doc.put("comments", allComments);
+         }
+         collection.insert(doc);
+         success = true;
+         }catch(MongoException e)
+         {System.out.println("System could not add record " + e);   }
+         
+         return success;
+         
+     }
+     
+     public boolean addRecordLocation (String classroom, String capacity, boolean video)
+     {
+         boolean success = false;
+         String comment = null;
+         success = addRecordLocation(classroom, capacity,video, comment );
+         return success;
+     }
+     
+
 }
