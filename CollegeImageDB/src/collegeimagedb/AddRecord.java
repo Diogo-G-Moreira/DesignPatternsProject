@@ -35,6 +35,9 @@ public class AddRecord extends javax.swing.JFrame {
         boolean status = db.Connect("localhost", 27017);
 
         initComponents();
+        modelField.setEditable(false);
+        mSerialField.setEditable(false);
+        mStockField.setEditable(false);
 		System.out.println("Hre now");
         ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
 		softwareList = db.getSoftware();
@@ -68,14 +71,7 @@ public class AddRecord extends javax.swing.JFrame {
         }
              System.out.println("End");
 
-        /*Object selected = collectionList.getSelectedItem();
-        if(selected.toString().equals("software"))
-        {
-            addSoftwarePanel.setVisible(true);
-        }else if (selected.toString().equals(""))
-        {
-            addSoftwarePanel.setVisible(false);
-        }*/
+        
 
 
        
@@ -131,7 +127,7 @@ public class AddRecord extends javax.swing.JFrame {
         locationComboBox = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        machineField = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
@@ -140,16 +136,17 @@ public class AddRecord extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
-        jTextField14 = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
-        jTextField16 = new javax.swing.JTextField();
-        jTextField17 = new javax.swing.JTextField();
+        modelField = new javax.swing.JTextField();
+        mSerialField = new javax.swing.JTextField();
+        mStockField = new javax.swing.JTextField();
+        nameField = new javax.swing.JTextField();
+        serialField = new javax.swing.JTextField();
+        stockField = new javax.swing.JTextField();
+        macField = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        commentTextArea2 = new javax.swing.JTextArea();
+        monitorCheck = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -322,15 +319,14 @@ public class AddRecord extends javax.swing.JFrame {
                                 .addComponent(jLabel14)
                                 .addGap(18, 18, 18)
                                 .addComponent(jTextField5))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 11, Short.MAX_VALUE)
-                                .addComponent(jLabel15)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField6)))
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -403,9 +399,15 @@ public class AddRecord extends javax.swing.JFrame {
 
         jLabel30.setText("Comments:");
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane4.setViewportView(jTextArea3);
+        commentTextArea2.setColumns(20);
+        commentTextArea2.setRows(5);
+        jScrollPane4.setViewportView(commentTextArea2);
+
+        monitorCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                monitorCheckActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -429,11 +431,11 @@ public class AddRecord extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField10)
-                            .addComponent(jTextField14)
-                            .addComponent(jTextField15)
-                            .addComponent(jTextField16, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(jTextField17))
+                            .addComponent(machineField)
+                            .addComponent(nameField)
+                            .addComponent(serialField)
+                            .addComponent(stockField, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                            .addComponent(macField))
                         .addGap(41, 41, 41)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -446,9 +448,10 @@ public class AddRecord extends javax.swing.JFrame {
                             .addComponent(jLabel29))
                         .addGap(27, 27, 27)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField11)
-                            .addComponent(jTextField12)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)))
+                            .addComponent(modelField)
+                            .addComponent(mSerialField)
+                            .addComponent(mStockField, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                            .addComponent(monitorCheck)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -457,33 +460,34 @@ public class AddRecord extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel26))
+                    .addComponent(machineField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26)
+                    .addComponent(monitorCheck))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
                     .addComponent(jLabel27)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(modelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(jLabel28)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mSerialField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(serialField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
                     .addComponent(jLabel29)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mStockField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stockField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel25)
-                    .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(macField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -595,6 +599,11 @@ public class AddRecord extends javax.swing.JFrame {
         String selectedIndex = jTabbedPane1.getTitleAt(jTabbedPane1.getSelectedIndex());
         System.out.println(selectedIndex);
         //Object selected = collectionList.getSelectedItem();
+        
+        ///////////////////////////////////////////////////////////////////////
+        // Software
+        //
+        ///////////////////////////////////////////////////////////////////////
         if(selectedIndex.equals("Software"))
         {     
         boolean missingSoftware = true;
@@ -648,6 +657,10 @@ public class AddRecord extends javax.swing.JFrame {
                 }
             }
         }
+        ///////////////////////////////////////////////////////////////////////
+        // Classrooms
+        //
+        ///////////////////////////////////////////////////////////////////////
         
                 if(selectedIndex.equals("Classrooms"))
         {          
@@ -701,8 +714,223 @@ public class AddRecord extends javax.swing.JFrame {
             }
         }
         
+        ///////////////////////////////////////////////////////////////////////
+        // Hardware
+        //
+        ///////////////////////////////////////////////////////////////////////
         
+        if(selectedIndex.equals("Hardware"))
+        {          
+            boolean missingMachine = true;
+            boolean missingMAC = true;
+            boolean missingSerial = true;
+            boolean missingName = true;
+            boolean missingStock = true;
+            String machine = null;
+            String name = null;
+            String serial = null;
+            String stock = null;
+            String mac = null;
+            String monitorModel = null;
+            String monitorSerial = null;
+            String monitorStock = null;
+            String comment = null;
+
+                    System.out.println("Software here?");
+            if(machineField.getText().toString() != "")
+            {
+                System.out.println("yes machine");
+                machine = machineField.getText().toString();
+                missingMachine = false;
+            }
+            System.out.println("MAC here?");
+            if(macField.getText().toString() != "")
+            {
+                System.out.println("yes Mac");
+                mac = macField.getText().toString();
+               missingMAC = false;
+            }
+            System.out.println("name here?");
+            if(nameField.getText().toString() != "")
+            {
+                System.out.println("yes name");
+                name = nameField.getText().toString();
+               missingName = false;
+            }
+            if(serialField.getText().toString() != "")
+            {
+                System.out.println("yes serial");
+                serial = serialField.getText().toString();
+               missingSerial = false;
+            }
+            if(stockField.getText().toString() != "")
+            {
+                System.out.println("yes stock");
+                stock = stockField.getText().toString();
+               missingStock = false;
+            }
+
+            if(modelField.getText().toString() != "")
+            {
+                System.out.println("yes model");
+                monitorModel = machineField.getText().toString();
+                if(mSerialField.getText().toString() != "")
+            {
+                System.out.println("yes Monior serial");
+                monitorSerial = mSerialField.getText().toString();
+                if(mStockField.getText().toString() != "")
+            {
+                System.out.println("yes stock");
+                monitorStock = mStockField.getText().toString();
+            }
+            }
+            }
+            System.out.println("MAC here?");
+            
+            
+            System.out.println("Comment");
+            System.out.println(commentTextArea.getText().trim() );
+            
+            if(commentTextArea2.getText()!=null||!commentTextArea2.getText().isEmpty())
+            {
+                System.out.println("yes Comment");
+                comment = commentTextArea2.getText().toString();
+            } else {
+            }
+            
+            if(missingMachine == true || missingName == true || missingMAC == true || missingSerial == true || missingStock == true)
+            {
+                System.out.println("Missing a mandatory field, check Software or version fields are not empty.");
+            }
+            else{
+                if(commentTextArea2.getText()==null || commentTextArea2.getText().isEmpty())
+                {
+                    System.out.println("No Comment");
+                    boolean success = db.addRecordHardware(machine, name, serial,stock,mac,monitorModel,monitorSerial,monitorStock);
+                    System.out.println(success);
+                }
+                else if(monitorModel == null)
+                {
+                    System.out.println("No monitor");
+                    boolean success = db.addRecordHardware(machine, name, serial,stock,mac);
+                    System.out.println(success);
+                }
+                else{
+                    System.out.println("yes Comment");
+                     boolean success = db.addRecordHardware(machine, name, serial,stock,mac,monitorModel,monitorSerial,monitorStock,comment);
+                    System.out.println(success);
+                }
+            }
+        }
         
+        ///////////////////////////////////////////////////////////////////////
+        // Images
+        //
+        ///////////////////////////////////////////////////////////////////////
+        
+        if(selectedIndex.equals("Images"))
+        {          
+            boolean missingMachine = true;
+            boolean missingMAC = true;
+            boolean missingSerial = true;
+            boolean missingName = true;
+            boolean missingStock = true;
+            String machine = null;
+            String name = null;
+            String serial = null;
+            String stock = null;
+            String mac = null;
+            String monitorModel = null;
+            String monitorSerial = null;
+            String monitorStock = null;
+            String comment = null;
+
+                    System.out.println("Software here?");
+            if(machineField.getText().toString() != "")
+            {
+                System.out.println("yes machine");
+                machine = machineField.getText().toString();
+                missingMachine = false;
+            }
+            System.out.println("MAC here?");
+            if(macField.getText().toString() != "")
+            {
+                System.out.println("yes Mac");
+                mac = macField.getText().toString();
+               missingMAC = false;
+            }
+            System.out.println("name here?");
+            if(nameField.getText().toString() != "")
+            {
+                System.out.println("yes name");
+                name = nameField.getText().toString();
+               missingName = false;
+            }
+            if(serialField.getText().toString() != "")
+            {
+                System.out.println("yes serial");
+                serial = serialField.getText().toString();
+               missingSerial = false;
+            }
+            if(stockField.getText().toString() != "")
+            {
+                System.out.println("yes stock");
+                stock = stockField.getText().toString();
+               missingStock = false;
+            }
+
+            if(modelField.getText().toString() != "")
+            {
+                System.out.println("yes model");
+                monitorModel = machineField.getText().toString();
+                if(mSerialField.getText().toString() != "")
+            {
+                System.out.println("yes Monior serial");
+                monitorSerial = mSerialField.getText().toString();
+                if(mStockField.getText().toString() != "")
+            {
+                System.out.println("yes stock");
+                monitorStock = mStockField.getText().toString();
+            }
+            }
+            }
+            System.out.println("MAC here?");
+            
+            
+            System.out.println("Comment");
+            System.out.println(commentTextArea.getText().trim() );
+            
+            if(commentTextArea2.getText()!=null||!commentTextArea2.getText().isEmpty())
+            {
+                System.out.println("yes Comment");
+                comment = commentTextArea2.getText().toString();
+            } else {
+            }
+            
+            if(missingMachine == true || missingName == true || missingMAC == true || missingSerial == true || missingStock == true)
+            {
+                System.out.println("Missing a mandatory field, check Software or version fields are not empty.");
+            }
+            else{
+                if(commentTextArea2.getText()==null || commentTextArea2.getText().isEmpty())
+                {
+                    System.out.println("No Comment");
+                    boolean success = db.addRecordHardware(machine, name, serial,stock,mac,monitorModel,monitorSerial,monitorStock);
+                    System.out.println(success);
+                }
+                else if(monitorModel == null)
+                {
+                    System.out.println("No monitor");
+                    boolean success = db.addRecordHardware(machine, name, serial,stock,mac);
+                    System.out.println(success);
+                }
+                else{
+                    System.out.println("yes Comment");
+                     boolean success = db.addRecordHardware(machine, name, serial,stock,mac,monitorModel,monitorSerial,monitorStock,comment);
+                    System.out.println(success);
+                }
+            }
+        }
         
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -713,6 +941,23 @@ public class AddRecord extends javax.swing.JFrame {
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void monitorCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monitorCheckActionPerformed
+
+    if(monitorCheck.isSelected())
+     {
+        modelField.setEditable(true);
+        mSerialField.setEditable(true);
+        mStockField.setEditable(true);
+     }
+
+
+
+
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_monitorCheckActionPerformed
 
     /**
      * @param args the command line arguments
@@ -755,6 +1000,7 @@ public class AddRecord extends javax.swing.JFrame {
     private javax.swing.JTextField capacityField;
     private javax.swing.JTextField classroomField;
     private javax.swing.JTextArea commentTextArea;
+    private javax.swing.JTextArea commentTextArea2;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -794,23 +1040,23 @@ public class AddRecord extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JComboBox<String> locationComboBox;
+    private javax.swing.JTextField mSerialField;
+    private javax.swing.JTextField mStockField;
+    private javax.swing.JTextField macField;
+    private javax.swing.JTextField machineField;
+    private javax.swing.JTextField modelField;
+    private javax.swing.JCheckBox monitorCheck;
+    private javax.swing.JTextField nameField;
+    private javax.swing.JTextField serialField;
     private javax.swing.JTextField softwareField;
     private javax.swing.JList<String> softwareJList;
+    private javax.swing.JTextField stockField;
     private javax.swing.JTextField toolfield1;
     private javax.swing.JTextField toolfield2;
     private javax.swing.JTextField toolfield3;

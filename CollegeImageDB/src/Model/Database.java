@@ -177,5 +177,64 @@ public class Database {
          return success;
      }
      
+     public boolean addRecordHardware (String machine, String name, String mac, String stock,String serial, String monitor, String mstock, String mserial, String comment)
+     {
+         boolean success = false;
+         try{
+         DBCollection collection = getCollection("schoolHardware");
+         BasicDBObject doc = new BasicDBObject();
+         doc.put("machine",machine);
+         doc.put("name",name);
+         doc.put("serial",mac);
+         doc.put("stock",stock);
+         doc.put("mac",serial);
+         if(monitor != null)
+         {
+             List<BasicDBObject> monitorData = new ArrayList<BasicDBObject>();  
+             BasicDBObject doc2 = new BasicDBObject();
+               doc2.put("monitor", monitor);
+               doc2.put("mSerial", mserial);
+               doc2.put("mStock", mstock);
+             monitorData.add(doc2);
+             doc.put("monitor", monitorData);
+         }
+         if(monitor != null)
+         {
+             List<BasicDBObject> allComments = new ArrayList<BasicDBObject>();  
+             BasicDBObject doc3 = new BasicDBObject();
+               doc3.put("comment", comment);
+               Calendar calendar = Calendar.getInstance();
+               SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+               doc3.put("date",dateFormat.format(calendar.getTime()));
+              allComments.add(doc3);
+              doc.put("comments", allComments);
+         }
+         collection.insert(doc);
+         success = true;
+         }catch(MongoException e)
+         {System.out.println("System could not add record " + e);   }
+         
+         return success;
+         
+     }
+     
+     public boolean addRecordHardware (String machine, String name, String mac, String stock,String serial, String monitor, String mstock, String mserial)
+     {
+         boolean success = false;
+         String comment = null;
+         success = addRecordHardware( machine, name, mac, stock,serial, monitor, mstock, mserial, comment );
+         return success;
+     }
 
+     public boolean addRecordHardware (String machine, String name, String mac, String stock,String serial)
+     {
+          String monitor=null, mstock=null, mserial=null;
+
+         boolean success = false;
+         String comment = null;
+         success = addRecordHardware( machine, name, mac, stock,serial, monitor, mstock, mserial, comment );
+         return success;
+     }
+     
+     
 }
