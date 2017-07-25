@@ -16,6 +16,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -35,43 +36,46 @@ public class AddRecord extends javax.swing.JFrame {
         boolean status = db.Connect("localhost", 27017);
 
         initComponents();
+	
         modelField.setEditable(false);
         mSerialField.setEditable(false);
         mStockField.setEditable(false);
-		System.out.println("Hre now");
+        accessory1.setEditable(false);
+        accessory2.setEditable(false);
+        accessory3.setEditable(false);
+
+        
         ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
 		softwareList = db.getSoftware();
         listSoftware = new ArrayList<String>();
-        System.out.println(softwareList);
+
        DefaultListModel listModel = new DefaultListModel();
         for(int i = 0; i < softwareList.size(); i++)
         {
-            System.out.println(i);
+
             String option = softwareList.get(i).get("title").toString() + " - " +
                     softwareList.get(i).get("version").toString();
-            System.out.println(option);
             listSoftware.add(option);
             
             listModel.addElement(option);
         }
-             System.out.println("End");
+
         softwareJList.setModel(listModel);
         
          ArrayList<DBObject> classroomList = new ArrayList<DBObject>();
 		classroomList = db.getLocation();
         listClassroom = new ArrayList<String>();
         System.out.println(classroomList);
+        locationComboBox.addItem("");
         for(int i = 0; i < classroomList.size(); i++)
         {
             String option = classroomList.get(i).get("classroom").toString();
-            System.out.println(option);
+
             listClassroom.add(option);
             
             locationComboBox.addItem(option);
         }
              System.out.println("End");
-
-        
 
 
        
@@ -89,6 +93,7 @@ public class AddRecord extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jCheckBox1 = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -113,18 +118,19 @@ public class AddRecord extends javax.swing.JFrame {
         softwareJList = new javax.swing.JList<>();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        imageField = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        accessory1 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        accessory2 = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        accessory3 = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         locationComboBox = new javax.swing.JComboBox<>();
+        AccessoryCheck = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         machineField = new javax.swing.JTextField();
@@ -156,6 +162,8 @@ public class AddRecord extends javax.swing.JFrame {
         classroomField = new javax.swing.JTextField();
         capacityField = new javax.swing.JTextField();
         videoCheckbox = new javax.swing.JCheckBox();
+
+        jCheckBox1.setText("jCheckBox1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -271,9 +279,9 @@ public class AddRecord extends javax.swing.JFrame {
 
         jLabel15.setText("Accessory #3");
 
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        accessory3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                accessory3ActionPerformed(evt);
             }
         });
 
@@ -282,6 +290,12 @@ public class AddRecord extends javax.swing.JFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
+
+        AccessoryCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AccessoryCheckActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -302,23 +316,26 @@ public class AddRecord extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTextField3)
-                            .addComponent(jTextField1)
+                            .addComponent(imageField)
                             .addComponent(locationComboBox, 0, 80, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
                         .addComponent(jLabel12)
-                        .addGap(178, 178, 178))
+                        .addGap(18, 18, 18)
+                        .addComponent(AccessoryCheck)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField4))
+                                .addComponent(accessory1))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField5))
+                                .addComponent(accessory2))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
@@ -326,18 +343,19 @@ public class AddRecord extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField6)))
+                                .addComponent(accessory3)))
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(imageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -346,22 +364,22 @@ public class AddRecord extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addComponent(locationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                         .addComponent(jLabel11))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
+                        .addComponent(AccessoryCheck)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(accessory1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(accessory2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(accessory3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -461,11 +479,12 @@ public class AddRecord extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel21)
-                    .addComponent(machineField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel26)
-                    .addComponent(monitorCheck))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(monitorCheck)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel21)
+                        .addComponent(machineField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel26)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
@@ -770,10 +789,12 @@ public class AddRecord extends javax.swing.JFrame {
                missingStock = false;
             }
 
+            if(monitorCheck.isSelected())
+            {
             if(modelField.getText().toString() != "")
             {
                 System.out.println("yes model");
-                monitorModel = machineField.getText().toString();
+                monitorModel = modelField.getText().toString();
                 if(mSerialField.getText().toString() != "")
             {
                 System.out.println("yes Monior serial");
@@ -785,13 +806,14 @@ public class AddRecord extends javax.swing.JFrame {
             }
             }
             }
+            }
             System.out.println("MAC here?");
             
             
             System.out.println("Comment");
-            System.out.println(commentTextArea.getText().trim() );
+            System.out.println(commentTextArea.getText().length() );
             
-            if(commentTextArea2.getText()!=null||!commentTextArea2.getText().isEmpty())
+            if(commentTextArea2.getText().length() > 0)
             {
                 System.out.println("yes Comment");
                 comment = commentTextArea2.getText().toString();
@@ -803,20 +825,26 @@ public class AddRecord extends javax.swing.JFrame {
                 System.out.println("Missing a mandatory field, check Software or version fields are not empty.");
             }
             else{
-                if(commentTextArea2.getText()==null || commentTextArea2.getText().isEmpty())
+                if(commentTextArea2.getText().length() == 0 && monitorCheck.isSelected()==true)
                 {
                     System.out.println("No Comment");
                     boolean success = db.addRecordHardware(machine, name, serial,stock,mac,monitorModel,monitorSerial,monitorStock);
                     System.out.println(success);
                 }
-                else if(monitorModel == null)
+                else if(commentTextArea2.getText().length() > 0 && monitorCheck.isSelected()==false)
                 {
                     System.out.println("No monitor");
+                    boolean success = db.addRecordHardware(machine, name, serial,stock,mac, comment);
+                    System.out.println(success);
+                }
+                else if(commentTextArea2.getText().length() == 0 && monitorCheck.isSelected()==false)
+                {
+                    System.out.println("No nothing");
                     boolean success = db.addRecordHardware(machine, name, serial,stock,mac);
                     System.out.println(success);
                 }
                 else{
-                    System.out.println("yes Comment");
+                    System.out.println("yes everything");
                      boolean success = db.addRecordHardware(machine, name, serial,stock,mac,monitorModel,monitorSerial,monitorStock,comment);
                     System.out.println(success);
                 }
@@ -831,42 +859,48 @@ public class AddRecord extends javax.swing.JFrame {
         if(selectedIndex.equals("Images"))
         {          
             boolean missingMachine = true;
-            boolean missingMAC = true;
-            boolean missingSerial = true;
-            boolean missingName = true;
-            boolean missingStock = true;
+            boolean missingImage = true;
+            boolean missingLocation = true;
+            boolean missingSoftware = true;
             String machine = null;
-            String name = null;
-            String serial = null;
-            String stock = null;
-            String mac = null;
-            String monitorModel = null;
-            String monitorSerial = null;
-            String monitorStock = null;
+            String image = null;
+            String location = null;
+            String accessoryOne = null;
+            String accessoryTwo = null;
+            String accessoryThree = null;
+            ArrayList<Integer> softwareSelected = new ArrayList<Integer> ();
             String comment = null;
 
-                    System.out.println("Software here?");
+            
             if(machineField.getText().toString() != "")
             {
                 System.out.println("yes machine");
                 machine = machineField.getText().toString();
                 missingMachine = false;
             }
-            System.out.println("MAC here?");
-            if(macField.getText().toString() != "")
+            System.out.println("image here?");
+            if(imageField.getText().toString() != "")
             {
-                System.out.println("yes Mac");
-                mac = macField.getText().toString();
-               missingMAC = false;
+                System.out.println("yes image");
+                image = imageField.getText().toString();
+                missingImage = false;
             }
-            System.out.println("name here?");
-            if(nameField.getText().toString() != "")
+            System.out.println("location here?");
+            if(locationComboBox.getSelectedItem().toString() != "")
             {
-                System.out.println("yes name");
-                name = nameField.getText().toString();
-               missingName = false;
+                System.out.println("yes location");
+                location = locationComboBox.getSelectedItem().toString();
+               missingLocation = false;
             }
+            
+        
+                System.out.println(softwareJList.getSelectedIndices());
+           
+            /*
             if(serialField.getText().toString() != "")
+            {if(serialField.getText().toString() != "")
+            {if(serialField.getText().toString() != "")
+            {if(serialField.getText().toString() != "")
             {
                 System.out.println("yes serial");
                 serial = serialField.getText().toString();
@@ -929,18 +963,18 @@ public class AddRecord extends javax.swing.JFrame {
                      boolean success = db.addRecordHardware(machine, name, serial,stock,mac,monitorModel,monitorSerial,monitorStock,comment);
                     System.out.println(success);
                 }
-            }
-        }
+          */ } 
         
+
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void toolfield2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toolfield2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_toolfield2ActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void accessory3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accessory3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_accessory3ActionPerformed
 
     private void monitorCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monitorCheckActionPerformed
 
@@ -950,7 +984,12 @@ public class AddRecord extends javax.swing.JFrame {
         mSerialField.setEditable(true);
         mStockField.setEditable(true);
      }
-
+  else{
+        
+         modelField.setEditable(false);
+        mSerialField.setEditable(false);
+        mStockField.setEditable(false);
+  }
 
 
 
@@ -958,6 +997,24 @@ public class AddRecord extends javax.swing.JFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_monitorCheckActionPerformed
+
+    private void AccessoryCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccessoryCheckActionPerformed
+
+  if(AccessoryCheck.isSelected())
+     {
+        accessory1.setEditable(true);
+        accessory2.setEditable(true);
+        accessory3.setEditable(true);
+     }
+  else{
+        
+        accessory1.setEditable(false);
+        accessory2.setEditable(false);
+        accessory3.setEditable(false);
+  }
+
+
+    }//GEN-LAST:event_AccessoryCheckActionPerformed
 
     /**
      * @param args the command line arguments
@@ -995,13 +1052,19 @@ public class AddRecord extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox AccessoryCheck;
+    private javax.swing.JTextField accessory1;
+    private javax.swing.JTextField accessory2;
+    private javax.swing.JTextField accessory3;
     private javax.swing.JButton addButton;
     private javax.swing.JPanel addSoftwarePanel;
     private javax.swing.JTextField capacityField;
     private javax.swing.JTextField classroomField;
     private javax.swing.JTextArea commentTextArea;
     private javax.swing.JTextArea commentTextArea2;
+    private javax.swing.JTextField imageField;
     private javax.swing.JButton jButton2;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1040,11 +1103,7 @@ public class AddRecord extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JComboBox<String> locationComboBox;
     private javax.swing.JTextField mSerialField;
     private javax.swing.JTextField mStockField;

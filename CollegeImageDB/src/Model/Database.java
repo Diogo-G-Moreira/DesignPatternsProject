@@ -6,13 +6,17 @@
 package Model;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
+import com.mongodb.client.ListIndexesIterable;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Indexes;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -113,6 +117,34 @@ public class Database {
         return collection;
     }
      
+    
+    public void Search (String collect, String search)
+    {
+      
+        
+        DBCollection collection =  getCollection(collect);
+ 
+        
+        BasicDBObject index = new BasicDBObject("$**", 1);
+        
+        
+        collection.createIndex(index);
+        
+        List<DBObject> indexes = collection.getIndexInfo();
+        //for ()
+        
+        System.out.println(collection.find((DBObject) Filters.text(search)));
+           
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
      public boolean addRecordSoftware (String software, String version, String[] tools)
      {
          boolean success = false;
@@ -235,6 +267,12 @@ public class Database {
          success = addRecordHardware( machine, name, mac, stock,serial, monitor, mstock, mserial, comment );
          return success;
      }
-     
+     public boolean addRecordHardware (String machine, String name, String mac, String stock,String serial, String comment)
+     {
+          String monitor=null, mstock=null, mserial=null;
+         boolean success = false;
+         success = addRecordHardware( machine, name, mac, stock,serial, monitor, mstock, mserial, comment );
+         return success;
+     }
      
 }
