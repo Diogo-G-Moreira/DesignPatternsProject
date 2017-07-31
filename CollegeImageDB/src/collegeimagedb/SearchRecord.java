@@ -21,7 +21,7 @@ public class SearchRecord extends javax.swing.JFrame {
      * Creates new form SearchRecord
      */
     Database db = new Database();
-    
+     DefaultListModel listModel;
     
     public SearchRecord() {
         boolean status = db.Connect("localhost", 27017);
@@ -136,18 +136,14 @@ public class SearchRecord extends javax.swing.JFrame {
     private void collectionsListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_collectionsListActionPerformed
         // TODO add your handling code here:
         Object selected = collectionsList.getSelectedItem();
-        DefaultListModel listModel = new DefaultListModel();
+       listModel = new DefaultListModel();
         switch (selected.toString()){
             case "software":
                 ArrayList<DBObject> softwareList = db.getSoftware();
-                
-                ArrayList <String> newSoftwareList = new ArrayList<String>(); 
                 for(int i = 0; i < softwareList.size(); i++)
                 {
                     String option = softwareList.get(i).get("title").toString() + " - " +
                     softwareList.get(i).get("version").toString();
-            
-                    newSoftwareList.add(option);
             
                     listModel.addElement(option);
                 }
@@ -156,17 +152,41 @@ public class SearchRecord extends javax.swing.JFrame {
                 break;
             case "schoolLocation":
                   ArrayList<DBObject> locationList = db.getLocation();
-                    ArrayList <String> newLocationList = new ArrayList<String>(); 
                 for(int i = 0; i < locationList.size(); i++)
                 {
                     String option = locationList.get(i).get("classroom").toString();
-                    newLocationList.add(option);
+                    listModel.addElement(option);
+                }
+                System.out.println("End");
+                resultList.setModel(listModel);
+                break;
+                
+            case "schoolHardware":
+                  ArrayList<DBObject> hardwareList = db.getLocation();
+                for(int i = 0; i < hardwareList.size(); i++)
+                {
+                    String option = hardwareList.get(i).get("machine").toString() + " - " +
+                    hardwareList.get(i).get("name").toString() + " - " +
+                    hardwareList.get(i).get("mac").toString();
             
                     listModel.addElement(option);
                 }
                 System.out.println("End");
                 resultList.setModel(listModel);
                 break;
+                
+            case "images":
+                  ArrayList<DBObject> imageList = db.getImage();
+                for(int i = 0; i < imageList.size(); i++)
+                {
+                    String option = imageList.get(i).get("image").toString();
+            
+                    listModel.addElement(option);
+                }
+                System.out.println("End");
+                resultList.setModel(listModel);
+                break;
+                
     }
        
         
@@ -179,13 +199,67 @@ public class SearchRecord extends javax.swing.JFrame {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
 
-
-       db.Search(collectionsList.getSelectedItem().toString(), searchField.getText().toString() ); 
-
-
-
-
-
+       // db.getFieldNames(collectionsList.getSelectedItem().toString());
+     ArrayList <DBObject> searchResults = new ArrayList <DBObject>(); 
+      listModel.removeAllElements();
+      listModel.clear();
+      searchResults = db.Search(collectionsList.getSelectedItem().toString(), searchField.getText().toString() ); 
+      
+      ArrayList <String> secondList = new ArrayList<String>(); 
+      if(collectionsList.getSelectedItem().toString().equals("school"))
+      {
+                for(int i = 0; i < searchResults.size(); i++)
+                {
+                    String option = searchResults.get(i).get("title").toString() + " - " +
+                    searchResults.get(i).get("version").toString();
+            
+                    secondList.add(option);
+            
+                    listModel.addElement(option);
+                }
+                System.out.println("End");
+                resultList.setModel(listModel);
+      }
+      else if(collectionsList.getSelectedItem().toString().equals( "schoolLocation"))
+      {
+                for(int i = 0; i < searchResults.size(); i++)
+                {
+                    String option = searchResults.get(i).get("classroom").toString();
+                    secondList.add(option);
+            
+                    listModel.addElement(option);
+                }
+                System.out.println("End");
+                resultList.setModel(listModel);
+      }
+      
+            else if(collectionsList.getSelectedItem().toString().equals( "schoolHardware"))
+      {
+                for(int i = 0; i < searchResults.size(); i++)
+                {
+                    String option = searchResults.get(i).get("machine").toString() + " - " +
+                    searchResults.get(i).get("name").toString() + " - " +
+                    searchResults.get(i).get("mac").toString();
+                    secondList.add(option);
+            
+                    listModel.addElement(option);
+                }
+                System.out.println("End");
+                resultList.setModel(listModel);
+      }
+      
+             else if(collectionsList.getSelectedItem().toString().equals("images"))
+      {
+                for(int i = 0; i < searchResults.size(); i++)
+                {
+                    String option = searchResults.get(i).get("image").toString();
+            
+                    listModel.addElement(option);
+                }
+                System.out.println("End");
+                resultList.setModel(listModel);
+      }     
+      
         // TODO add your handling code here:
     }//GEN-LAST:event_searchButtonActionPerformed
 

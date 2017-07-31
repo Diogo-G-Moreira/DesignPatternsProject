@@ -16,6 +16,7 @@ import com.mongodb.MongoException;
 import com.mongodb.client.ListIndexesIterable;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
+import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.Indexes;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import javax.swing.text.Document;
+import org.bson.BsonDocument;
 
 /**
  *
@@ -60,6 +62,41 @@ public class Database {
         
     }
     
+    /*public BasicDBObject getAccountInfo()
+    {
+        
+        BasicDBObject accountInfo = new BasicDBObject();
+        
+        
+        return accountInfo
+        
+    }*/
+    
+    public void validAccount(String account, String password)
+    {
+        
+        
+        DBCollection collection =  getCollection("accounts");
+        BasicDBObject query = new BasicDBObject();
+        BasicDBObject field = new BasicDBObject();
+        ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+        
+        obj.add(new BasicDBObject("account",account));
+        obj.add(new BasicDBObject("password",password));
+        
+        query.put("$and", obj);
+        
+ 
+        DBCursor cursor = collection.find(query);
+        while (cursor.hasNext())
+        {
+            //DBObject software = 
+            System.out.println(cursor.next());
+            //softwareList.add(software);
+        }
+
+        //return softwareList;
+    }
         public ArrayList<DBObject> getSoftware ()
     {
         
@@ -103,6 +140,49 @@ public class Database {
         
     }
     
+    public ArrayList<DBObject> getHardware ()
+    {
+        
+        DBCollection collection =  getCollection("schoolHardware");
+        BasicDBObject query = new BasicDBObject();
+        BasicDBObject fields = new BasicDBObject();
+        ArrayList<DBObject> hardwareList = new ArrayList<DBObject>();
+        
+        fields.put("machine",1);
+        fields.put("name",1);
+        fields.put("mac",1);       
+        DBCursor cursor = collection.find(query, fields);
+        while (cursor.hasNext())
+        {
+            DBObject hardware = cursor.next();
+            hardwareList.add(hardware);
+        }
+
+        return hardwareList;
+        
+    }
+        
+    public ArrayList<DBObject> getImage ()
+    {
+        
+        DBCollection collection =  getCollection("images");
+        BasicDBObject query = new BasicDBObject();
+        BasicDBObject fields = new BasicDBObject();
+        ArrayList<DBObject> imageList = new ArrayList<DBObject>();
+        
+        fields.put("image",1);
+        
+        DBCursor cursor = collection.find(query, fields);
+        while (cursor.hasNext())
+        {
+            DBObject image = cursor.next();
+            imageList.add(image);
+        }
+
+        return imageList;
+        
+    }
+    
     public Set<String> getAllCollections()
     {
         Set<String> collections = db.getCollectionNames();
@@ -117,33 +197,61 @@ public class Database {
         return collection;
     }
      
-    
-    public void Search (String collect, String search)
+        public ArrayList<String> getFieldNames(String collect)
     {
-      
-        
         DBCollection collection =  getCollection(collect);
- 
+        BasicDBObject query = new BasicDBObject();
         
-        BasicDBObject index = new BasicDBObject("$**", 1);
+        ArrayList<String> fields = new ArrayList<String>() ;
+        DBCursor results = collection.find(query);
         
-        
-        collection.createIndex(index);
-        
-        List<DBObject> indexes = collection.getIndexInfo();
-        //for ()
-        
-        System.out.println(collection.find((DBObject) Filters.text(search)));
-           
-        
+       for( String key: results.next().keySet())
+        {
+           fields.add(key);
+        }
+        return fields;
     }
     
     
-    
-    
-    
-    
-    
+    public ArrayList<DBObject> Search (String collect, String search)
+    {
+      
+        BasicDBObject query = new BasicDBObject();
+        DBCollection collection =  getCollection(collect);
+        ArrayList<DBObject> resultsList = new ArrayList<DBObject>();
+
+       if(collect.equals("schoolLocation"))
+       {
+           query.append("classroom", new BasicDBObject("$regex", search).append("$options", "i"));
+       }
+       else if(collect.equals("images"))
+       {
+           System.out.println("made it here");
+           query.append("image", new BasicDBObject("$regex", search).append("$options", "i"));
+       }
+       else if(collect.equals("schoolHardware"))
+       {
+           query.append("machine", new BasicDBObject("$regex", search).append("$options", "i"));
+       }
+       else if(collect.equals("school") )
+       {
+           query.append("title", new BasicDBObject("$regex", search).append("$options", "i"));
+           
+       }
+
+        DBCursor results = collection.find(query);
+        while (results.hasNext())
+        {
+            DBObject oneResult = results.next();
+            System.out.println(oneResult.toString());
+            resultsList.add(oneResult);
+        }
+        
+        return resultsList;
+           
+        
+    }
+
     
      public boolean addRecordSoftware (String software, String version, String[] tools)
      {
@@ -179,7 +287,7 @@ public class Database {
          DBCollection collection = getCollection("schoolLocation");
          BasicDBObject doc = new BasicDBObject();
          doc.put("classroom",classroom);
-         doc.put("version",capacity);
+         doc.put("capacity",capacity);
          doc.put("videoconferencing",video);
          if(comment != null)
          {
