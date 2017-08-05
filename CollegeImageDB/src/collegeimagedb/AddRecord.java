@@ -96,7 +96,7 @@ public class AddRecord extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         addSoftwarePanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -128,9 +128,9 @@ public class AddRecord extends javax.swing.JFrame {
         accessory3 = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        commentTextArea3 = new javax.swing.JTextArea();
         locationComboBox = new javax.swing.JComboBox<>();
-        AccessoryCheck = new javax.swing.JCheckBox();
+        accessoryCheck = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         machineField = new javax.swing.JTextField();
@@ -176,7 +176,12 @@ public class AddRecord extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Return");
+        backButton.setText("Return");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Software:");
 
@@ -287,13 +292,13 @@ public class AddRecord extends javax.swing.JFrame {
 
         jLabel16.setText("Comment");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        commentTextArea3.setColumns(20);
+        commentTextArea3.setRows(5);
+        jScrollPane2.setViewportView(commentTextArea3);
 
-        AccessoryCheck.addActionListener(new java.awt.event.ActionListener() {
+        accessoryCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AccessoryCheckActionPerformed(evt);
+                accessoryCheckActionPerformed(evt);
             }
         });
 
@@ -324,7 +329,7 @@ public class AddRecord extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(jLabel12)
                         .addGap(18, 18, 18)
-                        .addComponent(AccessoryCheck)
+                        .addComponent(accessoryCheck)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -367,7 +372,7 @@ public class AddRecord extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                         .addComponent(jLabel11))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(AccessoryCheck)
+                        .addComponent(accessoryCheck)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(accessory1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -589,7 +594,7 @@ public class AddRecord extends javax.swing.JFrame {
                         .addGap(173, 173, 173))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButton2)
+                            .addComponent(backButton)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(addButton))
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -604,7 +609,7 @@ public class AddRecord extends javax.swing.JFrame {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
+                    .addComponent(backButton)
                     .addComponent(addButton))
                 .addGap(61, 61, 61))
         );
@@ -865,10 +870,8 @@ public class AddRecord extends javax.swing.JFrame {
             String machine = null;
             String image = null;
             String location = null;
-            String accessoryOne = null;
-            String accessoryTwo = null;
-            String accessoryThree = null;
-            ArrayList<Integer> softwareSelected = new ArrayList<Integer> ();
+            ArrayList<String> accessories = new ArrayList<String>();
+            ArrayList<String> softwareSelected = new ArrayList<String> ();
             String comment = null;
 
             
@@ -894,78 +897,68 @@ public class AddRecord extends javax.swing.JFrame {
             }
             
         
-                System.out.println(softwareJList.getSelectedIndices());
+            int [] selectedIndexes = softwareJList.getSelectedIndices();
+            
+            for(int i = 0;i < selectedIndexes.length;i++ )
+            {
+                softwareSelected.add(softwareJList.getModel().getElementAt(selectedIndexes[i]));
+                System.out.println(softwareSelected.get(i));
+            }
+                if(selectedIndexes.length != 0)
+                    missingSoftware = false;
+            
+            if (accessoryCheck.isSelected()==true)
+            {
+                if(accessory1.equals(""))
+                {
+                    accessories.add(accessory1.getText());
+                    if(accessory2.equals(""))
+                    {
+                        accessories.add(accessory2.getText());
+                        if(accessory3.equals(""))
+                    {
+                        accessories.add(accessory3.getText());
+                    }
+                    }
+                }   
+            }
            
-            /*
-            if(serialField.getText().toString() != "")
-            {if(serialField.getText().toString() != "")
-            {if(serialField.getText().toString() != "")
-            {if(serialField.getText().toString() != "")
-            {
-                System.out.println("yes serial");
-                serial = serialField.getText().toString();
-               missingSerial = false;
-            }
-            if(stockField.getText().toString() != "")
-            {
-                System.out.println("yes stock");
-                stock = stockField.getText().toString();
-               missingStock = false;
-            }
-
-            if(modelField.getText().toString() != "")
-            {
-                System.out.println("yes model");
-                monitorModel = machineField.getText().toString();
-                if(mSerialField.getText().toString() != "")
-            {
-                System.out.println("yes Monior serial");
-                monitorSerial = mSerialField.getText().toString();
-                if(mStockField.getText().toString() != "")
-            {
-                System.out.println("yes stock");
-                monitorStock = mStockField.getText().toString();
-            }
-            }
-            }
-            System.out.println("MAC here?");
-            
-            
-            System.out.println("Comment");
-            System.out.println(commentTextArea.getText().trim() );
-            
-            if(commentTextArea2.getText()!=null||!commentTextArea2.getText().isEmpty())
+            if(commentTextArea3.getText().length() > 0)
             {
                 System.out.println("yes Comment");
                 comment = commentTextArea2.getText().toString();
-            } else {
-            }
+            } 
             
-            if(missingMachine == true || missingName == true || missingMAC == true || missingSerial == true || missingStock == true)
+            if(missingMachine == true || missingImage == true || missingLocation == true || missingSoftware == true)
             {
                 System.out.println("Missing a mandatory field, check Software or version fields are not empty.");
             }
             else{
-                if(commentTextArea2.getText()==null || commentTextArea2.getText().isEmpty())
+                if(commentTextArea3.getText().length() == 0 && accessoryCheck.isSelected()==false)
                 {
-                    System.out.println("No Comment");
-                    boolean success = db.addRecordHardware(machine, name, serial,stock,mac,monitorModel,monitorSerial,monitorStock);
+                    System.out.println("No comment or accessories");
+                    boolean success = db.addRecordImage(machine, image, location, softwareSelected);
                     System.out.println(success);
                 }
-                else if(monitorModel == null)
+                else if(commentTextArea3.getText().length() == 0 && accessoryCheck.isSelected()==true)
                 {
-                    System.out.println("No monitor");
-                    boolean success = db.addRecordHardware(machine, name, serial,stock,mac);
+                    System.out.println("No Comment");
+                    boolean success = db.addRecordImage(machine, image, location, softwareSelected, accessories);
+                    System.out.println(success);
+                }
+                else if(commentTextArea3.getText().length() > 0 && accessoryCheck.isSelected()==false)
+                {
+                    System.out.println("No Accessories");
+                    boolean success = db.addRecordImage(machine, image, location, softwareSelected, comment);
                     System.out.println(success);
                 }
                 else{
-                    System.out.println("yes Comment");
-                     boolean success = db.addRecordHardware(machine, name, serial,stock,mac,monitorModel,monitorSerial,monitorStock,comment);
+                    System.out.println("everythings here");
+                    boolean success = db.addRecordImage(machine, image, location, softwareSelected,accessories ,comment);
                     System.out.println(success);
                 }
-          */ } 
-        
-
+            }
+        }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void toolfield2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toolfield2ActionPerformed
@@ -998,9 +991,9 @@ public class AddRecord extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_monitorCheckActionPerformed
 
-    private void AccessoryCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccessoryCheckActionPerformed
+    private void accessoryCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accessoryCheckActionPerformed
 
-  if(AccessoryCheck.isSelected())
+  if(accessoryCheck.isSelected())
      {
         accessory1.setEditable(true);
         accessory2.setEditable(true);
@@ -1014,7 +1007,14 @@ public class AddRecord extends javax.swing.JFrame {
   }
 
 
-    }//GEN-LAST:event_AccessoryCheckActionPerformed
+    }//GEN-LAST:event_accessoryCheckActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+
+       this.setVisible(false);
+       new Menu().setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1052,18 +1052,19 @@ public class AddRecord extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox AccessoryCheck;
     private javax.swing.JTextField accessory1;
     private javax.swing.JTextField accessory2;
     private javax.swing.JTextField accessory3;
+    private javax.swing.JCheckBox accessoryCheck;
     private javax.swing.JButton addButton;
     private javax.swing.JPanel addSoftwarePanel;
+    private javax.swing.JButton backButton;
     private javax.swing.JTextField capacityField;
     private javax.swing.JTextField classroomField;
     private javax.swing.JTextArea commentTextArea;
     private javax.swing.JTextArea commentTextArea2;
+    private javax.swing.JTextArea commentTextArea3;
     private javax.swing.JTextField imageField;
-    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1102,7 +1103,6 @@ public class AddRecord extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JComboBox<String> locationComboBox;
     private javax.swing.JTextField mSerialField;

@@ -102,9 +102,16 @@ public class LoginPage extends javax.swing.JFrame {
         Database db = new Database();
         boolean status = db.Connect("localhost", 27017);
         
-        db.validAccount(userField.getText().toString(), passField.getText().toString());
+        boolean authenticate = db.validAccount(userField.getText().toString(), passField.getText().toString());
 
-
+        if (authenticate == true)
+        {
+            this.setVisible(false);
+            new Menu().setVisible(true);
+        }
+        else{
+            System.out.println("Username and Password given is not correct, please try again.");
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_loginButtonActionPerformed
 

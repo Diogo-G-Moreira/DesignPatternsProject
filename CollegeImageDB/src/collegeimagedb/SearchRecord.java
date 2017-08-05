@@ -7,9 +7,14 @@ package collegeimagedb;
 
 import Model.Database;
 import com.mongodb.DBObject;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Set;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,13 +22,35 @@ import javax.swing.DefaultListModel;
  */
 public class SearchRecord extends javax.swing.JFrame {
 
+    
+    int functionType = 1;
+
+    public void setFunctionType(int functionType) {
+        this.functionType = functionType;
+    }
+
+    public int getFunctionType() {
+        return functionType;
+    }
     /**
      * Creates new form SearchRecord
      */
     Database db = new Database();
      DefaultListModel listModel;
+     ArrayList <DBObject> searchResults;
     
     public SearchRecord() {
+        setup();
+    }
+    
+    public SearchRecord(int functionType) {
+        setup();
+        this.functionType = functionType;
+    }
+
+    
+    public void setup()
+    {
         boolean status = db.Connect("localhost", 27017);
         initComponents();
         
@@ -34,17 +61,56 @@ public class SearchRecord extends javax.swing.JFrame {
             collectionsList.addItem(coll.toString());
         }
         
+        MouseListener mouse = new MouseAdapter() {
+            
+            public void mouseClicked(MouseEvent mouseEvent)
+                {
+                    JList list = (JList) mouseEvent.getSource();
+                    if (mouseEvent.getClickCount()==2){
+                        int index =  list.locationToIndex(mouseEvent.getPoint());
+                        System.out.println(index);
+                        System.out.println(searchResults);
+                        if (index >= 0){
+                            DBObject selectedObject = searchResults.get(index);
+                            
+                             if(getFunctionType()==0)
+                            {
+                                moveToView(selectedObject);
+                            }
+                            
+                            
+                            if(getFunctionType()==1)
+                            {
+                                moveToUpdate(selectedObject);
+                            }
+                            
+                            if(getFunctionType()==2)
+                            {
+                                String msg = "<html>Are you sure you wish to delete this record?<br>"; 
+                                if(collectionsList.getSelectedItem().toString().equals("software"))
+                                {
+                                    msg += "Software: " + selectedObject.get("title") + "<br> Version: " + selectedObject.get("version");
+                                }
+                                
+                            int response = JOptionPane.showConfirmDialog(null, msg, "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            if(response == JOptionPane.YES_OPTION)
+                                {
+                                    db.delete(selectedObject, collectionsList.getSelectedItem().toString());
+                                }
+                            }
+                            
+                            
+                        }
+                        
+                        
+                }
+                }
+            
+        };
+        resultList.addMouseListener(mouse);
         
-        /*Object selected = collectionList.getSelectedItem();
-        if(selected.toString().equals("software"))
-        {
-            addSoftwarePanel.setVisible(true);
-        }else if (selected.toString().equals(""))
-        {
-            addSoftwarePanel.setVisible(false);
-        }*/
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +126,7 @@ public class SearchRecord extends javax.swing.JFrame {
         resultList = new javax.swing.JList<>();
         searchButton = new javax.swing.JButton();
         searchField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,10 +147,10 @@ public class SearchRecord extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Back");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                backButtonActionPerformed(evt);
             }
         });
 
@@ -101,7 +167,7 @@ public class SearchRecord extends javax.swing.JFrame {
                                 .addComponent(collectionsList, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jButton1)))
+                                .addComponent(backButton)))
                         .addGap(58, 58, 58)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -119,7 +185,7 @@ public class SearchRecord extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1))
+                    .addComponent(backButton))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(collectionsList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -138,23 +204,24 @@ public class SearchRecord extends javax.swing.JFrame {
         Object selected = collectionsList.getSelectedItem();
        listModel = new DefaultListModel();
         switch (selected.toString()){
-            case "software":
-                ArrayList<DBObject> softwareList = db.getSoftware();
-                for(int i = 0; i < softwareList.size(); i++)
+            case "school":
+                searchResults = db.getSoftware();
+                for(int i = 0; i < searchResults.size(); i++)
                 {
-                    String option = softwareList.get(i).get("title").toString() + " - " +
-                    softwareList.get(i).get("version").toString();
+                    String option = searchResults.get(i).get("title").toString() + " - " +
+                    searchResults.get(i).get("version").toString();
             
                     listModel.addElement(option);
                 }
                 System.out.println("End");
                 resultList.setModel(listModel);
+               
                 break;
             case "schoolLocation":
-                  ArrayList<DBObject> locationList = db.getLocation();
-                for(int i = 0; i < locationList.size(); i++)
+                  searchResults = db.getLocation();
+                for(int i = 0; i < searchResults.size(); i++)
                 {
-                    String option = locationList.get(i).get("classroom").toString();
+                    String option = searchResults.get(i).get("classroom").toString();
                     listModel.addElement(option);
                 }
                 System.out.println("End");
@@ -162,12 +229,12 @@ public class SearchRecord extends javax.swing.JFrame {
                 break;
                 
             case "schoolHardware":
-                  ArrayList<DBObject> hardwareList = db.getLocation();
-                for(int i = 0; i < hardwareList.size(); i++)
+                  searchResults = db.getHardware();
+                for(int i = 0; i < searchResults.size(); i++)
                 {
-                    String option = hardwareList.get(i).get("machine").toString() + " - " +
-                    hardwareList.get(i).get("name").toString() + " - " +
-                    hardwareList.get(i).get("mac").toString();
+                    String option = searchResults.get(i).get("machine").toString() + " - " +
+                    searchResults.get(i).get("name").toString() + " - " +
+                    searchResults.get(i).get("mac").toString();
             
                     listModel.addElement(option);
                 }
@@ -176,10 +243,10 @@ public class SearchRecord extends javax.swing.JFrame {
                 break;
                 
             case "images":
-                  ArrayList<DBObject> imageList = db.getImage();
-                for(int i = 0; i < imageList.size(); i++)
+                  searchResults = db.getImage();
+                for(int i = 0; i < searchResults.size(); i++)
                 {
-                    String option = imageList.get(i).get("image").toString();
+                    String option = searchResults.get(i).get("image").toString();
             
                     listModel.addElement(option);
                 }
@@ -193,14 +260,18 @@ public class SearchRecord extends javax.swing.JFrame {
         
     }//GEN-LAST:event_collectionsListActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+
+       this.setVisible(false);
+       new Menu().setVisible(true);
+
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_backButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
 
        // db.getFieldNames(collectionsList.getSelectedItem().toString());
-     ArrayList <DBObject> searchResults = new ArrayList <DBObject>(); 
+     searchResults = new ArrayList <DBObject>(); 
       listModel.removeAllElements();
       listModel.clear();
       searchResults = db.Search(collectionsList.getSelectedItem().toString(), searchField.getText().toString() ); 
@@ -297,10 +368,24 @@ public class SearchRecord extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void moveToUpdate(DBObject selectedObject)
+    {
+        this.setVisible(false);
+        new UpdateRecord(1,selectedObject).setVisible(true);
+
+    }
+    
+        public void moveToView(DBObject selectedObject)
+    {
+        this.setVisible(false);
+        new ViewRecord(1,selectedObject).setVisible(true);
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backButton;
     private javax.swing.JComboBox<String> collectionsList;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> resultList;

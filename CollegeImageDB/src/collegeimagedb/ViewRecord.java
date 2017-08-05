@@ -13,19 +13,19 @@ import java.util.ArrayList;
  *
  * @author Diogo
  */
-public class UpdateRecord extends javax.swing.JFrame {
+public class ViewRecord extends javax.swing.JFrame {
 
     /**
      * Creates new form UpdateRecord
      */
     Database db = new Database();
     int dataType; 
-    public UpdateRecord() {
+    public ViewRecord() {
         initComponents();
         setUpForm();
     }
     
-        public UpdateRecord(int dataType, DBObject selectedObject) {
+        public ViewRecord(int dataType, DBObject selectedObject) {
         initComponents();
         this.dataType = dataType;
         
@@ -71,12 +71,14 @@ public class UpdateRecord extends javax.swing.JFrame {
         labelDropdown = new javax.swing.JLabel();
         label10 = new javax.swing.JLabel();
         box10 = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Update Record");
+        jLabel1.setText("View Record");
 
         text2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,6 +132,10 @@ public class UpdateRecord extends javax.swing.JFrame {
 
         label10.setText("jLabel2");
 
+        jButton1.setText("Prev");
+
+        jButton2.setText("Next");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -164,13 +170,21 @@ public class UpdateRecord extends javax.swing.JFrame {
                             .addComponent(text7)
                             .addComponent(text8)
                             .addComponent(text9))))
-                .addGap(50, 50, 50)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(label15)
-                    .addComponent(label14)
-                    .addComponent(labelDropdown)
-                    .addComponent(label10))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(label15)
+                            .addComponent(label14)
+                            .addComponent(labelDropdown)
+                            .addComponent(label10))
+                        .addGap(19, 19, 19))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton2)
+                            .addComponent(jButton1))
+                        .addGap(10, 10, 10)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dropdown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -220,20 +234,27 @@ public class UpdateRecord extends javax.swing.JFrame {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(17, 17, 17)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(text7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(label7)
-                        .addComponent(label15))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(text8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label8))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(text9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label9)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(text8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(label8)
+                                    .addComponent(jButton1)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(text7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(label7)
+                                .addComponent(label15)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(text9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(label9))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addGap(14, 14, 14)))))
                 .addContainerGap())
         );
 
@@ -255,7 +276,7 @@ public class UpdateRecord extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 17, Short.MAX_VALUE))
+                        .addGap(0, 16, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(backButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -274,7 +295,7 @@ public class UpdateRecord extends javax.swing.JFrame {
                     .addComponent(jButton4))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -317,19 +338,31 @@ public class UpdateRecord extends javax.swing.JFrame {
     
     private void setUpForm(DBObject selectedObject)
     {
+        
+        text1.setEnabled(false);
+        text2.setEnabled(false);
+        text3.setEnabled(false);
+        text4.setEnabled(false);
+        text5.setEnabled(false);
+        box6.setEnabled(false);
+        text7.setEnabled(false);
+        text8.setEnabled(false);
+        text9.setEnabled(false);
+        box10.setEnabled(false);
+        dropdown.setEnabled(false);
+        textBox.setEnabled(false);
+        list.setEnabled(false);
+        
+        
         switch (dataType){
-            
+
             case 1: label1.setText("Software:");
                     label2.setText("Version:");
                     label6.setText("Additional Tools");
                     label7.setText("Tool 1:");
                     label8.setText("Tool 2:");
                     label9.setText("Tool 3:");
-                    
-                    text7.setEnabled(false);
-                    text8.setEnabled(false);
-                    text9.setEnabled(false);
-            
+
                     label3.setVisible(false);
                     text3.setVisible(false);
                     label4.setVisible(false);
@@ -368,13 +401,6 @@ public class UpdateRecord extends javax.swing.JFrame {
                     labelDropdown.setText("Location");
                     label14.setText("Software:");
                     label15.setText("Comment:");
-
-                    
-                    
-                    
-                    text7.setEnabled(false);
-                    text8.setEnabled(false);
-                    text9.setEnabled(false);
             
                     label3.setVisible(false);
                     text3.setVisible(false);
@@ -415,22 +441,14 @@ public class UpdateRecord extends javax.swing.JFrame {
                     label4.setText("MAC:");
                     label5.setText("STOCK:");
 
-                    
-                    
-                    
-                    
+
                     label6.setText("Monitor");
                     label7.setText("Model:");
                     label8.setText("Serial #:");
                     label9.setText("STOCK:");
                     label15.setText("Comment:");
                     
-                    
-                    
-                    
-                    text7.setEnabled(false);
-                    text8.setEnabled(false);
-                    text9.setEnabled(false);
+
                     label14.setVisible(false);
                     list.setVisible(false);
                     label10.setVisible(false);
@@ -447,15 +465,11 @@ public class UpdateRecord extends javax.swing.JFrame {
                         text4.setText(selectedObject.get("stock").toString());
                         text5.setText(selectedObject.get("mac").toString());
                         
-                        
-                        //text2.setText(selectedObject.get("version").toString());
-                    
                        if(selectedObject.get("monitor") != null)
                           System.out.println(selectedObject.get("tools").toString());
                     
                     }
-                    
-                    
+
                     break;
                     
             case 4: label1.setText("Classroom:");
@@ -492,15 +506,9 @@ public class UpdateRecord extends javax.swing.JFrame {
                     text1.setText(selectedObject.get("classroom").toString());
                     text2.setText(selectedObject.get("capacity").toString());
                     box10.setEnabled((boolean) selectedObject.get("videoconferencing"));
-                    
-                    
-                   
-                    
-                    
-        }
-        
-        
-        
+                       
+                    }
+                    break;   
     }
     }
      private void setUpForm()
@@ -527,21 +535,23 @@ public class UpdateRecord extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UpdateRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UpdateRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UpdateRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UpdateRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UpdateRecord().setVisible(true);
+                new ViewRecord().setVisible(true);
             }
         });
     }
@@ -551,6 +561,8 @@ public class UpdateRecord extends javax.swing.JFrame {
     private javax.swing.JCheckBox box10;
     private javax.swing.JCheckBox box6;
     private javax.swing.JComboBox<String> dropdown;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

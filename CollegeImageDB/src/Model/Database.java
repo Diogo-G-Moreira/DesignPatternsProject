@@ -72,10 +72,10 @@ public class Database {
         
     }*/
     
-    public void validAccount(String account, String password)
+    public boolean validAccount(String account, String password)
     {
         
-        
+        boolean results = false;
         DBCollection collection =  getCollection("accounts");
         BasicDBObject query = new BasicDBObject();
         BasicDBObject field = new BasicDBObject();
@@ -88,14 +88,12 @@ public class Database {
         
  
         DBCursor cursor = collection.find(query);
-        while (cursor.hasNext())
-        {
-            //DBObject software = 
-            System.out.println(cursor.next());
-            //softwareList.add(software);
-        }
+        if (cursor.hasNext())
+            results = true;
+        
+        
 
-        //return softwareList;
+        return results;
     }
         public ArrayList<DBObject> getSoftware ()
     {
@@ -338,7 +336,7 @@ public class Database {
              monitorData.add(doc2);
              doc.put("monitor", monitorData);
          }
-         if(monitor != null)
+         if(comment != null)
          {
              List<BasicDBObject> allComments = new ArrayList<BasicDBObject>();  
              BasicDBObject doc3 = new BasicDBObject();
@@ -382,5 +380,95 @@ public class Database {
          success = addRecordHardware( machine, name, mac, stock,serial, monitor, mstock, mserial, comment );
          return success;
      }
+     
+     public boolean addRecordImage (String machine, String image, String location, ArrayList <String> software,ArrayList<String> accessories, String comment)
+     {
+         ArrayList <String> softwareIDList = new ArrayList <String>();
+         boolean success = false;
+         try{
+         DBCollection collection = getCollection("school");
+         BasicDBObject doc = new BasicDBObject();
+         doc.put("image",image);
+         doc.put("machine",machine);
+         doc.put("location",location);
+          
+         if(software != null)
+         {
+         for (int i = 0; i < software.size();i++)
+         {
+         BasicDBObject query = new BasicDBObject();
+        ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
+        
+            query.put("title", software.get(i));
+        
+        DBCursor cursor = collection.find(query);
+        
+        if(cursor.hasNext())
+        {
+            while (cursor.hasNext())
+            {
+                DBObject softwareObject = cursor.next();
+                softwareIDList.add(softwareObject.get("_id").toString());
+            } 
+        }
+         }
+         doc.put("software", softwareIDList);
+         }
+         if(accessories != null)
+            doc.put("accessories", accessories);
+
+         if(comment != null)
+         {
+             List<BasicDBObject> allComments = new ArrayList<BasicDBObject>();  
+             BasicDBObject doc2 = new BasicDBObject();
+               doc2.put("comment", comment);
+               Calendar calendar = Calendar.getInstance();
+               SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+               doc2.put("date",dateFormat.format(calendar.getTime()));
+              allComments.add(doc2);
+              doc.put("comments", allComments);
+         }
+         collection.insert(doc);
+         success = true;
+         }catch(MongoException e)
+         {System.out.println("System could not add record " + e);   }
+         
+         return success;
+         
+     }
+
+     public boolean addRecordImage (String machine,  String image, String location, ArrayList <String> software)
+     {
+          ArrayList <String> accessories=null;
+          String comment=null;
+         boolean success = false;
+         success = addRecordImage( machine, image, location, software, accessories, comment );
+         return success;
+     }
+     
+     public boolean addRecordImage (String machine,  String image, String location, ArrayList <String> software, String comment)
+     {
+          ArrayList <String> accessories=null;
+         boolean success = false;
+         success = addRecordImage( machine, image, location, software, accessories, comment );
+         return success;
+     }
+     
+     public boolean addRecordImage (String machine,  String image, String location, ArrayList <String> software, ArrayList <String> accessories)
+     {
+          String comment=null;
+         boolean success = false;
+         success = addRecordImage( machine, image, location, software, accessories, comment );
+         return success;
+     }
+     
+     public void delete(DBObject record, String collectionSelected)
+     {
+         DBCollection collection = getCollection(collectionSelected);
+         collection.remove(record);
+         System.out.println("record Deleted");
+     }
+     
+     
      
 }
