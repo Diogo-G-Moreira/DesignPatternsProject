@@ -381,37 +381,33 @@ public class Database {
          return success;
      }
      
-     public boolean addRecordImage (String machine, String image, String location, ArrayList <String> software,ArrayList<String> accessories, String comment)
+     public boolean addRecordImage (String machine, String image, String location, int[] softwareSelected,ArrayList<String> accessories, String comment)
      {
+         ArrayList <DBObject> softwareList = new ArrayList <DBObject>();
          ArrayList <String> softwareIDList = new ArrayList <String>();
          boolean success = false;
          try{
-         DBCollection collection = getCollection("school");
+         DBCollection collection = getCollection("images");
          BasicDBObject doc = new BasicDBObject();
          doc.put("image",image);
          doc.put("machine",machine);
          doc.put("location",location);
           
-         if(software != null)
+         System.out.println(accessories);
+         System.out.println(comment);
+         
+         
+         if(softwareSelected != null)
          {
-         for (int i = 0; i < software.size();i++)
+		softwareList = getSoftware();
+
+         for (int i = 0;i < softwareSelected.length;i++)
          {
-         BasicDBObject query = new BasicDBObject();
-        ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
-        
-            query.put("title", software.get(i));
-        
-        DBCursor cursor = collection.find(query);
-        
-        if(cursor.hasNext())
-        {
-            while (cursor.hasNext())
-            {
-                DBObject softwareObject = cursor.next();
-                softwareIDList.add(softwareObject.get("_id").toString());
-            } 
-        }
+             DBObject object = softwareList.get(i);
+            softwareIDList.add(object.get("_id").toString());
+            System.out.println(softwareIDList.get(i));
          }
+
          doc.put("software", softwareIDList);
          }
          if(accessories != null)
@@ -437,7 +433,7 @@ public class Database {
          
      }
 
-     public boolean addRecordImage (String machine,  String image, String location, ArrayList <String> software)
+     public boolean addRecordImage (String machine,  String image, String location, int[] software)
      {
           ArrayList <String> accessories=null;
           String comment=null;
@@ -446,7 +442,7 @@ public class Database {
          return success;
      }
      
-     public boolean addRecordImage (String machine,  String image, String location, ArrayList <String> software, String comment)
+     public boolean addRecordImage (String machine,  String image, String location, int[] software, String comment)
      {
           ArrayList <String> accessories=null;
          boolean success = false;
@@ -454,7 +450,7 @@ public class Database {
          return success;
      }
      
-     public boolean addRecordImage (String machine,  String image, String location, ArrayList <String> software, ArrayList <String> accessories)
+     public boolean addRecordImage (String machine,  String image, String location, int[] software, ArrayList <String> accessories)
      {
           String comment=null;
          boolean success = false;

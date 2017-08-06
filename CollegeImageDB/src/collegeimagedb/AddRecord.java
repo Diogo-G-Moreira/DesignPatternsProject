@@ -119,7 +119,7 @@ public class AddRecord extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         imageField = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        machineField2 = new javax.swing.JTextField();
         accessory1 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -320,7 +320,7 @@ public class AddRecord extends javax.swing.JFrame {
                             .addComponent(jLabel9))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField3)
+                            .addComponent(machineField2)
                             .addComponent(imageField)
                             .addComponent(locationComboBox, 0, 80, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -363,7 +363,7 @@ public class AddRecord extends javax.swing.JFrame {
                             .addComponent(jLabel12))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(machineField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -871,14 +871,13 @@ public class AddRecord extends javax.swing.JFrame {
             String image = null;
             String location = null;
             ArrayList<String> accessories = new ArrayList<String>();
-            ArrayList<String> softwareSelected = new ArrayList<String> ();
             String comment = null;
 
             
-            if(machineField.getText().toString() != "")
+            if(machineField2.getText().toString() != "")
             {
                 System.out.println("yes machine");
-                machine = machineField.getText().toString();
+                machine = machineField2.getText().toString();
                 missingMachine = false;
             }
             System.out.println("image here?");
@@ -898,35 +897,35 @@ public class AddRecord extends javax.swing.JFrame {
             
         
             int [] selectedIndexes = softwareJList.getSelectedIndices();
-            
-            for(int i = 0;i < selectedIndexes.length;i++ )
-            {
-                softwareSelected.add(softwareJList.getModel().getElementAt(selectedIndexes[i]));
-                System.out.println(softwareSelected.get(i));
-            }
+
                 if(selectedIndexes.length != 0)
                     missingSoftware = false;
             
             if (accessoryCheck.isSelected()==true)
             {
-                if(accessory1.equals(""))
+                if(!accessory1.equals(""))
                 {
                     accessories.add(accessory1.getText());
-                    if(accessory2.equals(""))
+                    System.out.println(accessories.get(0));
+                    if(!accessory2.equals(""))
                     {
                         accessories.add(accessory2.getText());
-                        if(accessory3.equals(""))
+                        System.out.println(accessories.get(1));
+                        if(!accessory3.equals(""))
                     {
                         accessories.add(accessory3.getText());
+                        System.out.println(accessories.get(2));
                     }
                     }
                 }   
             }
-           
+           System.out.println(commentTextArea3.getText());
             if(commentTextArea3.getText().length() > 0)
             {
-                System.out.println("yes Comment");
-                comment = commentTextArea2.getText().toString();
+                System.out.println("There was a comment");
+                comment = commentTextArea3.getText();
+                System.out.println(comment);
+
             } 
             
             if(missingMachine == true || missingImage == true || missingLocation == true || missingSoftware == true)
@@ -937,24 +936,24 @@ public class AddRecord extends javax.swing.JFrame {
                 if(commentTextArea3.getText().length() == 0 && accessoryCheck.isSelected()==false)
                 {
                     System.out.println("No comment or accessories");
-                    boolean success = db.addRecordImage(machine, image, location, softwareSelected);
+                    boolean success = db.addRecordImage(machine, image, location, selectedIndexes);
                     System.out.println(success);
                 }
                 else if(commentTextArea3.getText().length() == 0 && accessoryCheck.isSelected()==true)
                 {
                     System.out.println("No Comment");
-                    boolean success = db.addRecordImage(machine, image, location, softwareSelected, accessories);
+                    boolean success = db.addRecordImage(machine, image, location, selectedIndexes, accessories);
                     System.out.println(success);
                 }
                 else if(commentTextArea3.getText().length() > 0 && accessoryCheck.isSelected()==false)
                 {
                     System.out.println("No Accessories");
-                    boolean success = db.addRecordImage(machine, image, location, softwareSelected, comment);
+                    boolean success = db.addRecordImage(machine, image, location, selectedIndexes, comment);
                     System.out.println(success);
                 }
                 else{
                     System.out.println("everythings here");
-                    boolean success = db.addRecordImage(machine, image, location, softwareSelected,accessories ,comment);
+                    boolean success = db.addRecordImage(machine, image, location, selectedIndexes,accessories ,comment);
                     System.out.println(success);
                 }
             }
@@ -1103,12 +1102,12 @@ public class AddRecord extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JComboBox<String> locationComboBox;
     private javax.swing.JTextField mSerialField;
     private javax.swing.JTextField mStockField;
     private javax.swing.JTextField macField;
     private javax.swing.JTextField machineField;
+    private javax.swing.JTextField machineField2;
     private javax.swing.JTextField modelField;
     private javax.swing.JCheckBox monitorCheck;
     private javax.swing.JTextField nameField;

@@ -22,7 +22,6 @@ import javax.swing.JOptionPane;
  */
 public class SearchRecord extends javax.swing.JFrame {
 
-    
     int functionType = 1;
 
     public void setFunctionType(int functionType) {
@@ -36,81 +35,113 @@ public class SearchRecord extends javax.swing.JFrame {
      * Creates new form SearchRecord
      */
     Database db = new Database();
-     DefaultListModel listModel;
-     ArrayList <DBObject> searchResults;
-    
+    DefaultListModel listModel;
+    ArrayList<DBObject> searchResults;
+
     public SearchRecord() {
         setup();
     }
-    
+
     public SearchRecord(int functionType) {
         setup();
         this.functionType = functionType;
+        System.out.println(getFunctionType());
     }
 
-    
-    public void setup()
-    {
+    public void setup() {
         boolean status = db.Connect("localhost", 27017);
         initComponents();
-        
-         Set<String> collections = db.getAllCollections();
-        
-          collectionsList.addItem("");
-        for(String coll : collections){
+
+        Set<String> collections = db.getAllCollections();
+
+        collectionsList.addItem("");
+        for (String coll : collections) {
             collectionsList.addItem(coll.toString());
         }
-        
+
         MouseListener mouse = new MouseAdapter() {
-            
-            public void mouseClicked(MouseEvent mouseEvent)
-                {
-                    JList list = (JList) mouseEvent.getSource();
-                    if (mouseEvent.getClickCount()==2){
-                        int index =  list.locationToIndex(mouseEvent.getPoint());
-                        System.out.println(index);
-                        System.out.println(searchResults);
-                        if (index >= 0){
-                            DBObject selectedObject = searchResults.get(index);
-                            
-                             if(getFunctionType()==0)
-                            {
-                                moveToView(selectedObject);
+
+            public void mouseClicked(MouseEvent mouseEvent) {
+                JList list = (JList) mouseEvent.getSource();
+                if (mouseEvent.getClickCount() == 2) {
+                    int index = list.locationToIndex(mouseEvent.getPoint());
+                    System.out.println(index);
+                    System.out.println(searchResults);
+                    if (index >= 0) {
+                        DBObject selectedObject = searchResults.get(index);
+
+                        if (getFunctionType() == 0) {
+                            int dataType = 0;
+                            if (collectionsList.getSelectedItem().toString().equals("school")) {
+                                dataType = 1;
                             }
-                            
-                            
-                            if(getFunctionType()==1)
-                            {
-                                moveToUpdate(selectedObject);
+
+                            if (collectionsList.getSelectedItem().toString().equals("schoolHardware")) {
+                                dataType = 3;
                             }
-                            
-                            if(getFunctionType()==2)
-                            {
-                                String msg = "<html>Are you sure you wish to delete this record?<br>"; 
-                                if(collectionsList.getSelectedItem().toString().equals("software"))
-                                {
-                                    msg += "Software: " + selectedObject.get("title") + "<br> Version: " + selectedObject.get("version");
-                                }
-                                
-                            int response = JOptionPane.showConfirmDialog(null, msg, "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                            if(response == JOptionPane.YES_OPTION)
-                                {
-                                    db.delete(selectedObject, collectionsList.getSelectedItem().toString());
-                                }
+
+                            if (collectionsList.getSelectedItem().toString().equals("schoolLocation")) {
+                                dataType = 4;
                             }
-                            
-                            
+
+                            if (collectionsList.getSelectedItem().toString().equals("images")) {
+                                dataType = 2;
+                            }
+                            if (dataType != 0) {
+                                moveToView(selectedObject,dataType );
+                            } else {
+                                System.out.println(dataType);
+                            }
+
                         }
-                        
-                        
+
+                        if (getFunctionType() == 1) {
+                            moveToUpdate(selectedObject);
+                        }
+
+                        if (getFunctionType() == 2) {
+                            String msg = "<html>Are you sure you wish to delete this record?<br>";
+                            if (collectionsList.getSelectedItem().toString().equals("school")) {
+                                msg += "Software: " + selectedObject.get("title") + "<br> Version: " + selectedObject.get("version");
+                            }
+                            if (collectionsList.getSelectedItem().toString().equals("schoolHardware")) {
+                                msg += "Machine: " + selectedObject.get("machine") + "<br> Name: " + selectedObject.get("name")
+                                        + "<br> Serial: " + selectedObject.get("serial")
+                                        + "<br> Stock: " + selectedObject.get("stock")
+                                        + "<br> MAC: " + selectedObject.get("mac");
+                                if (selectedObject.get("monitor") != null) {
+                                    msg += "<br> Monitor: " + selectedObject.get("monitor.monitor")
+                                            + "<br> Monitor Serial: " + selectedObject.get("monitor.mserial")
+                                            + "<br> Monitor Stock: " + selectedObject.get("monitor.mstock");
+                                }
+                            }
+
+                            if (collectionsList.getSelectedItem().toString().equals("schoolLocation")) {
+                                msg += "Classroom: " + selectedObject.get("classroom") + "<br> Version: " + selectedObject.get("version")
+                                        + "<br> Video Conferening: " + selectedObject.get("videoconferencing");
+                            }
+
+                            if (collectionsList.getSelectedItem().toString().equals("images")) {
+                                msg += "Image: " + selectedObject.get("image") + "<br> Machine: " + selectedObject.get("machine")
+                                        + "<br> Location: " + selectedObject.get("location");
+                            }
+
+                            int response = JOptionPane.showConfirmDialog(null, msg, "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            if (response == JOptionPane.YES_OPTION) {
+                                db.delete(selectedObject, collectionsList.getSelectedItem().toString());
+                            }
+                        }
+
+                    }
+
                 }
-                }
-            
+            }
+
         };
         resultList.addMouseListener(mouse);
-        
+
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -202,135 +233,117 @@ public class SearchRecord extends javax.swing.JFrame {
     private void collectionsListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_collectionsListActionPerformed
         // TODO add your handling code here:
         Object selected = collectionsList.getSelectedItem();
-       listModel = new DefaultListModel();
-        switch (selected.toString()){
+        listModel = new DefaultListModel();
+        switch (selected.toString()) {
             case "school":
                 searchResults = db.getSoftware();
-                for(int i = 0; i < searchResults.size(); i++)
-                {
-                    String option = searchResults.get(i).get("title").toString() + " - " +
-                    searchResults.get(i).get("version").toString();
-            
+                for (int i = 0; i < searchResults.size(); i++) {
+                    String option = searchResults.get(i).get("title").toString() + " - "
+                            + searchResults.get(i).get("version").toString();
+
                     listModel.addElement(option);
                 }
                 System.out.println("End");
                 resultList.setModel(listModel);
-               
+
                 break;
             case "schoolLocation":
-                  searchResults = db.getLocation();
-                for(int i = 0; i < searchResults.size(); i++)
-                {
+                searchResults = db.getLocation();
+                for (int i = 0; i < searchResults.size(); i++) {
                     String option = searchResults.get(i).get("classroom").toString();
                     listModel.addElement(option);
                 }
                 System.out.println("End");
                 resultList.setModel(listModel);
                 break;
-                
+
             case "schoolHardware":
-                  searchResults = db.getHardware();
-                for(int i = 0; i < searchResults.size(); i++)
-                {
-                    String option = searchResults.get(i).get("machine").toString() + " - " +
-                    searchResults.get(i).get("name").toString() + " - " +
-                    searchResults.get(i).get("mac").toString();
-            
+                searchResults = db.getHardware();
+                for (int i = 0; i < searchResults.size(); i++) {
+                    String option = searchResults.get(i).get("machine").toString() + " - "
+                            + searchResults.get(i).get("name").toString() + " - "
+                            + searchResults.get(i).get("mac").toString();
+
                     listModel.addElement(option);
                 }
                 System.out.println("End");
                 resultList.setModel(listModel);
                 break;
-                
+
             case "images":
-                  searchResults = db.getImage();
-                for(int i = 0; i < searchResults.size(); i++)
-                {
+                searchResults = db.getImage();
+                for (int i = 0; i < searchResults.size(); i++) {
                     String option = searchResults.get(i).get("image").toString();
-            
+
                     listModel.addElement(option);
                 }
                 System.out.println("End");
                 resultList.setModel(listModel);
                 break;
-                
-    }
-       
-        
-        
+
+        }
+
+
     }//GEN-LAST:event_collectionsListActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
 
-       this.setVisible(false);
-       new Menu().setVisible(true);
+        this.setVisible(false);
+        new Menu().setVisible(true);
 
         // TODO add your handling code here:
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
 
-       // db.getFieldNames(collectionsList.getSelectedItem().toString());
-     searchResults = new ArrayList <DBObject>(); 
-      listModel.removeAllElements();
-      listModel.clear();
-      searchResults = db.Search(collectionsList.getSelectedItem().toString(), searchField.getText().toString() ); 
-      
-      ArrayList <String> secondList = new ArrayList<String>(); 
-      if(collectionsList.getSelectedItem().toString().equals("school"))
-      {
-                for(int i = 0; i < searchResults.size(); i++)
-                {
-                    String option = searchResults.get(i).get("title").toString() + " - " +
-                    searchResults.get(i).get("version").toString();
-            
-                    secondList.add(option);
-            
-                    listModel.addElement(option);
-                }
-                System.out.println("End");
-                resultList.setModel(listModel);
-      }
-      else if(collectionsList.getSelectedItem().toString().equals( "schoolLocation"))
-      {
-                for(int i = 0; i < searchResults.size(); i++)
-                {
-                    String option = searchResults.get(i).get("classroom").toString();
-                    secondList.add(option);
-            
-                    listModel.addElement(option);
-                }
-                System.out.println("End");
-                resultList.setModel(listModel);
-      }
-      
-            else if(collectionsList.getSelectedItem().toString().equals( "schoolHardware"))
-      {
-                for(int i = 0; i < searchResults.size(); i++)
-                {
-                    String option = searchResults.get(i).get("machine").toString() + " - " +
-                    searchResults.get(i).get("name").toString() + " - " +
-                    searchResults.get(i).get("mac").toString();
-                    secondList.add(option);
-            
-                    listModel.addElement(option);
-                }
-                System.out.println("End");
-                resultList.setModel(listModel);
-      }
-      
-             else if(collectionsList.getSelectedItem().toString().equals("images"))
-      {
-                for(int i = 0; i < searchResults.size(); i++)
-                {
-                    String option = searchResults.get(i).get("image").toString();
-            
-                    listModel.addElement(option);
-                }
-                System.out.println("End");
-                resultList.setModel(listModel);
-      }     
-      
+        // db.getFieldNames(collectionsList.getSelectedItem().toString());
+        searchResults = new ArrayList<DBObject>();
+        listModel.removeAllElements();
+        listModel.clear();
+        searchResults = db.Search(collectionsList.getSelectedItem().toString(), searchField.getText().toString());
+
+        ArrayList<String> secondList = new ArrayList<String>();
+        if (collectionsList.getSelectedItem().toString().equals("school")) {
+            for (int i = 0; i < searchResults.size(); i++) {
+                String option = searchResults.get(i).get("title").toString() + " - "
+                        + searchResults.get(i).get("version").toString();
+
+                secondList.add(option);
+
+                listModel.addElement(option);
+            }
+            System.out.println("End");
+            resultList.setModel(listModel);
+        } else if (collectionsList.getSelectedItem().toString().equals("schoolLocation")) {
+            for (int i = 0; i < searchResults.size(); i++) {
+                String option = searchResults.get(i).get("classroom").toString();
+                secondList.add(option);
+
+                listModel.addElement(option);
+            }
+            System.out.println("End");
+            resultList.setModel(listModel);
+        } else if (collectionsList.getSelectedItem().toString().equals("schoolHardware")) {
+            for (int i = 0; i < searchResults.size(); i++) {
+                String option = searchResults.get(i).get("machine").toString() + " - "
+                        + searchResults.get(i).get("name").toString() + " - "
+                        + searchResults.get(i).get("mac").toString();
+                secondList.add(option);
+
+                listModel.addElement(option);
+            }
+            System.out.println("End");
+            resultList.setModel(listModel);
+        } else if (collectionsList.getSelectedItem().toString().equals("images")) {
+            for (int i = 0; i < searchResults.size(); i++) {
+                String option = searchResults.get(i).get("image").toString();
+
+                listModel.addElement(option);
+            }
+            System.out.println("End");
+            resultList.setModel(listModel);
+        }
+
         // TODO add your handling code here:
     }//GEN-LAST:event_searchButtonActionPerformed
 
@@ -368,18 +381,16 @@ public class SearchRecord extends javax.swing.JFrame {
             }
         });
     }
-    
-    public void moveToUpdate(DBObject selectedObject)
-    {
+
+    public void moveToUpdate(DBObject selectedObject) {
         this.setVisible(false);
-        new UpdateRecord(1,selectedObject).setVisible(true);
+        new UpdateRecord(1, selectedObject).setVisible(true);
 
     }
-    
-        public void moveToView(DBObject selectedObject)
-    {
+
+    public void moveToView(DBObject selectedObject, int dataType) {
         this.setVisible(false);
-        new ViewRecord(1,selectedObject).setVisible(true);
+        new ViewRecord(dataType, selectedObject).setVisible(true);
 
     }
 
