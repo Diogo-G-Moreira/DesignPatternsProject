@@ -6,8 +6,15 @@
 package collegeimagedb;
 
 import Model.Database;
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -19,16 +26,18 @@ public class UpdateRecord extends javax.swing.JFrame {
      * Creates new form UpdateRecord
      */
     Database db = new Database();
-    int dataType; 
+    int dataType;
+    DBObject selectedObject;
+
     public UpdateRecord() {
         initComponents();
         setUpForm();
     }
-    
-        public UpdateRecord(int dataType, DBObject selectedObject) {
+
+    public UpdateRecord(int dataType, DBObject selectedObject) {
         initComponents();
         this.dataType = dataType;
-        
+        this.selectedObject = selectedObject;
         setUpForm(selectedObject);
     }
 
@@ -72,7 +81,7 @@ public class UpdateRecord extends javax.swing.JFrame {
         label10 = new javax.swing.JLabel();
         box10 = new javax.swing.JCheckBox();
         backButton = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -244,25 +253,28 @@ public class UpdateRecord extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Update");
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 17, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(backButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(181, 181, 181)
-                        .addComponent(jButton4)))
-                .addContainerGap())
+                .addGap(54, 54, 54)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(backButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(143, 143, 143)
+                .addComponent(updateButton)
+                .addGap(48, 48, 48))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,7 +283,7 @@ public class UpdateRecord extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(backButton)
-                    .addComponent(jButton4))
+                    .addComponent(updateButton))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(37, Short.MAX_VALUE))
@@ -290,102 +302,302 @@ public class UpdateRecord extends javax.swing.JFrame {
 
     private void box6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box6ActionPerformed
 
-        if(box6.isSelected())
-        {
+        if (box6.isSelected()) {
             text7.setEnabled(true);
             text8.setEnabled(true);
             text9.setEnabled(true);
-        }
-        else
-        {
+        } else {
             text7.setEnabled(false);
             text8.setEnabled(false);
-            text9.setEnabled(false);       
+            text9.setEnabled(false);
         }
-
 
         // TODO add your handling code here:
     }//GEN-LAST:event_box6ActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         this.setVisible(false);
-       new SearchRecord(1).setVisible(true);
+        new SearchRecord(1).setVisible(true);
 
         // TODO add your handling code here:
     }//GEN-LAST:event_backButtonActionPerformed
 
-    
-    private void setUpForm(DBObject selectedObject)
-    {
-        switch (dataType){
-            
-            case 1: label1.setText("Software:");
-                    label2.setText("Version:");
-                    label6.setText("Additional Tools");
-                    label7.setText("Tool 1:");
-                    label8.setText("Tool 2:");
-                    label9.setText("Tool 3:");
-                    
-                    text7.setEnabled(false);
-                    text8.setEnabled(false);
-                    text9.setEnabled(false);
-            
-                    label3.setVisible(false);
-                    text3.setVisible(false);
-                    label4.setVisible(false);
-                    text4.setVisible(false);
-                    label5.setVisible(false);
-                    text5.setVisible(false);
-                    label10.setVisible(false);
-                    box10.setVisible(false);
-                    label14.setVisible(false);
-                    list.setVisible(false);
-                    label15.setVisible(false);
-                    textBox.setVisible(false);
-                    dropdown.setVisible(false);
-                    jScrollPane1.setVisible(false);
-                    jScrollPane2.setVisible(false);
-                    labelDropdown.setVisible(false);
-                    
-                    if(selectedObject != null)
-                    {
-                        text1.setText(selectedObject.get("title").toString());
-                        text2.setText(selectedObject.get("version").toString());
-                    
-                        if(selectedObject.get("tools") != null)
-                            System.out.println(selectedObject.get("tools").toString());
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        // TODO add your handling code here:]
+        BasicDBObject doc = new BasicDBObject();
+        String id = selectedObject.get("_id").toString();
+        switch (dataType) {
+
+            case 1:
+                if (selectedObject.get("title") != text1.getText()) {
+                    doc.append("$set", new BasicDBObject().append("title", text1.getText()));
+                }
+                if (selectedObject.get("version") != text2.getText()) {
+                    doc.append("$set", new BasicDBObject().append("version", text2.getText()));
+                }
+
+                if (box6.isEnabled() && (text7.getText().length() > 0 || text8.getText().length() > 0 || text9.getText().length() > 0)) {
+                    boolean toolsCheck = false;
+                    BasicDBList toolList = null;
+                    if (selectedObject.get("tools") != null) {
+                        toolsCheck = true;
+                        toolList = (BasicDBList) selectedObject.get("tools");
                     }
 
+                    String[] toolArray;
+                    toolArray = new String[3];
 
-                    break;
-            
-            case 2: label1.setText("Image:");
-                    label2.setText("Machine:");
-                    label6.setText("Accessories");
-                    label7.setText("Accessory 1:");
-                    label8.setText("Accessory 2:");
-                    label9.setText("Accessory 3:");
-                    labelDropdown.setText("Location");
-                    label14.setText("Software:");
-                    label15.setText("Comment:");
+                    for (int i = 0; i < 3; i++) {
 
-                    
-                    
-                    
-                    text7.setEnabled(false);
-                    text8.setEnabled(false);
-                    text9.setEnabled(false);
-            
-                    label3.setVisible(false);
-                    text3.setVisible(false);
-                    label4.setVisible(false);
-                    text4.setVisible(false);
-                    label5.setVisible(false);
-                    text5.setVisible(false);
-                    label10.setVisible(false);
-                    box10.setVisible(false);
-                    
+                        String tool = "";
+                        if (toolsCheck == true) {
+                            tool = toolList.get(i).toString();
+                        }
+                        if (i == 0) {
+                            if (tool != text7.getText()) {
+                                toolArray[i] = text7.getText();
+                            } else {
+                                toolArray[i] = "";
+                            }
+                        }
+                        if (i == 1) {
+                            if (tool != text8.getText()) {
+                                toolArray[i] = text8.getText();
+                            } else {
+                                toolArray[i] = "";
+                            }
+                        }
+                        if (i == 2) {
+                            if (tool != text9.getText()) {
+                                toolArray[i] = text9.getText();
+                            } else {
+                                toolArray[i] = "";
+                            }
+                        }
+                    }
+                    System.out.println(toolArray);
+                    doc.append("$set", new BasicDBObject().append("tools", toolArray));
+                }
+                boolean success = db.update(doc, "school", id);
+                break;
 
+            case 2:
+                if (selectedObject.get("image") != text1.getText()) {
+                    doc.append("$set", new BasicDBObject().append("image", text1.getText()));
+                }
+                if (selectedObject.get("machine") != text2.getText()) {
+                    doc.append("$set", new BasicDBObject().append("machine", text2.getText()));
+                }
+                if (selectedObject.get("location") != dropdown.getItemAt(dropdown.getSelectedIndex())) {
+                    doc.append("$set", new BasicDBObject().append("location", dropdown.getItemAt(dropdown.getSelectedIndex())));
+                }
+
+                if (box6.isEnabled() && (text7.getText().length() > 0 || text8.getText().length() > 0 || text9.getText().length() > 0)) {
+                    boolean accessoryCheck = false;
+                    BasicDBList accessoryList = null;
+                    if (selectedObject.get("accessories") != null) {
+                        accessoryCheck = true;
+                        accessoryList = (BasicDBList) selectedObject.get("accessories");
+                    }
+
+                    String[] accessoryArray;
+                    accessoryArray = new String[3];
+
+                    for (int i = 0; i < 3; i++) {
+
+                        String tool = "";
+                        if (accessoryCheck == true) {
+                            tool = accessoryList.get(i).toString();
+                        }
+                        if (i == 0) {
+                            if (tool != text7.getText()) {
+                                accessoryArray[i] = text7.getText();
+                            } else {
+                                accessoryArray[i] = "";
+                            }
+                        }
+                        if (i == 1) {
+                            if (tool != text8.getText()) {
+                                accessoryArray[i] = text8.getText();
+                            } else {
+                                accessoryArray[i] = "";
+                            }
+                        }
+                        if (i == 2) {
+                            if (tool != text9.getText()) {
+                                accessoryArray[i] = text9.getText();
+                            } else {
+                                accessoryArray[i] = "";
+                            }
+                        }
+                    }
+                    System.out.println(accessoryArray);
+                    doc.append("$set", new BasicDBObject().append("accessories", accessoryArray));
+                }
+
+                if (textBox.getText().length() > 0) {
+                    BasicDBList allComments = (BasicDBList) selectedObject.get("comments");
+                    BasicDBObject doc2 = new BasicDBObject();
+                    doc2.put("comment", textBox.getText());
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+                    doc2.put("date", dateFormat.format(calendar.getTime()));
+                    allComments.add(doc2);
+                    doc.put("comments", allComments);
+                }
+
+                break;
+
+            case 3:
+
+                if (selectedObject.get("machine") != text1.getText()) {
+                    doc.append("$set", new BasicDBObject().append("machine", text1.getText()));
+                }
+                if (selectedObject.get("name") != text2.getText()) {
+                    doc.append("$set", new BasicDBObject().append("name", text2.getText()));
+                }
+                if (selectedObject.get("serial") != text3.getText()) {
+                    doc.append("$set", new BasicDBObject().append("serial", text3.getText()));
+                }
+                if (selectedObject.get("mac") != text4.getText()) {
+                    doc.append("$set", new BasicDBObject().append("mac", text4.getText()));
+                }
+                if (selectedObject.get("stock") != text5.getText()) {
+                    doc.append("$set", new BasicDBObject().append("stock", text5.getText()));
+                }
+
+                if (box6.isEnabled() && (text7.getText().length() > 0 || text8.getText().length() > 0 || text9.getText().length() > 0)) {
+
+                    BasicDBObject doc2 = new BasicDBObject();
+                    doc2.put("monitor", text7.getText());
+                    doc2.put("mserial", text8.getText());
+                    doc2.put("mstock", text9.getText());
+
+                    doc.put("monitor", doc2);
+                }
+
+                if (textBox.getText().length() > 0) {
+                    BasicDBList allComments = (BasicDBList) selectedObject.get("comments");
+                    BasicDBObject doc2 = new BasicDBObject();
+                    doc2.put("comment", textBox.getText());
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+                    doc2.put("date", dateFormat.format(calendar.getTime()));
+                    allComments.add(doc2);
+                    doc.put("comments", allComments);
+                }
+
+                break;
+
+            case 4:
+
+                if (selectedObject.get("classroom") != text1.getText()) {
+                    doc.append("$set", new BasicDBObject().append("classroom", text1.getText()));
+                }
+                if (selectedObject.get("capacity") != text2.getText()) {
+                    doc.append("$set", new BasicDBObject().append("capacity", text2.getText()));
+                }
+
+                doc.append("$set", new BasicDBObject().append("videoconferencing", box10.isSelected()));
+
+                if (textBox.getText().length() > 0) {
+                    BasicDBList allComments = (BasicDBList) selectedObject.get("comments");
+                    BasicDBObject doc2 = new BasicDBObject();
+                    doc2.put("comment", textBox.getText());
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+                    doc2.put("date", dateFormat.format(calendar.getTime()));
+                    allComments.add(doc2);
+                    doc.put("comments", allComments);
+                }
+
+                break;
+
+        }
+
+
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void setUpForm(DBObject selectedObject) {
+        switch (dataType) {
+
+            case 1:
+                label1.setText("Software:");
+                label2.setText("Version:");
+                label6.setText("Additional Tools");
+                label7.setText("Tool 1:");
+                label8.setText("Tool 2:");
+                label9.setText("Tool 3:");
+
+                text7.setEnabled(false);
+                text8.setEnabled(false);
+                text9.setEnabled(false);
+
+                label3.setVisible(false);
+                text3.setVisible(false);
+                label4.setVisible(false);
+                text4.setVisible(false);
+                label5.setVisible(false);
+                text5.setVisible(false);
+                label10.setVisible(false);
+                box10.setVisible(false);
+                label14.setVisible(false);
+                list.setVisible(false);
+                label15.setVisible(false);
+                textBox.setVisible(false);
+                dropdown.setVisible(false);
+                jScrollPane1.setVisible(false);
+                jScrollPane2.setVisible(false);
+                labelDropdown.setVisible(false);
+
+                if (selectedObject != null) {
+                    text1.setText(selectedObject.get("title").toString());
+                    text2.setText(selectedObject.get("version").toString());
+                    if (selectedObject.get("tools") != null) {
+                        BasicDBList toolList = (BasicDBList) selectedObject.get("tools");
+                        for (int i = 0; i < toolList.size(); i++) {
+                            String tool = toolList.get(i).toString();
+                            if (i == 0) {
+                                text7.setText(tool);
+                            }
+                            if (i == 1) {
+                                text8.setText(tool);
+                            }
+                            if (i == 2) {
+                                text9.setText(tool);
+                            }
+                        }
+                    }
+
+                }
+
+                break;
+
+            case 2:
+                label1.setText("Image:");
+                label2.setText("Machine:");
+                label6.setText("Accessories");
+                label7.setText("Accessory 1:");
+                label8.setText("Accessory 2:");
+                label9.setText("Accessory 3:");
+                labelDropdown.setText("Location");
+                label14.setText("Software:");
+                label15.setText("Comment:");
+
+                text7.setEnabled(false);
+                text8.setEnabled(false);
+                text9.setEnabled(false);
+
+                label3.setVisible(false);
+                text3.setVisible(false);
+                label4.setVisible(false);
+                text4.setVisible(false);
+                label5.setVisible(false);
+                text5.setVisible(false);
+                label10.setVisible(false);
+                box10.setVisible(false);
+
+                /*
                     ArrayList <DBObject> classroomList = db.getLocation();
                         for(int i = 0; i < classroomList.size(); i++)
                         {
@@ -396,120 +608,133 @@ public class UpdateRecord extends javax.swing.JFrame {
                             
                         }
                     dropdown.getModel().setSelectedItem(selectedObject.get(""));
-                    if(selectedObject != null)
-                    {
-                        text1.setText(selectedObject.get("image").toString());
-                        text2.setText(selectedObject.get("machine").toString());
-                        
-                    
-                        //if(selectedObject.get("tools") != null)
-                          //  System.out.println(selectedObject.get("tools").toString());
+                 */
+                if (selectedObject != null) {
+                    text1.setText(selectedObject.get("image").toString());
+                    text2.setText(selectedObject.get("machine").toString());
+
+                    if (selectedObject.get("accessories") != null) {
+                        BasicDBList toolList = (BasicDBList) selectedObject.get("accessories");
+                        for (int i = 0; i < toolList.size(); i++) {
+                            String tool = toolList.get(i).toString();
+                            if (i == 0) {
+                                text7.setText(tool);
+                            }
+                            if (i == 1) {
+                                text8.setText(tool);
+                            }
+                            if (i == 2) {
+                                text9.setText(tool);
+                            }
+                        }
                     }
 
+                    /* ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
+                   System.out.println(softwareList);
+                    softwareList = db.getSoftware();
                     
-                    break;
-                    
-                    case 3: label1.setText("Machine:");
-                    label2.setText("Name:");
-                    label3.setText("Serial #:");
-                    label4.setText("MAC:");
-                    label5.setText("STOCK:");
+        DefaultListModel listModel = new DefaultListModel();
+        for (int i = 0; i < softwareList.size(); i++) {
 
-                    
-                    
-                    
-                    
-                    label6.setText("Monitor");
-                    label7.setText("Model:");
-                    label8.setText("Serial #:");
-                    label9.setText("STOCK:");
-                    label15.setText("Comment:");
-                    
-                    
-                    
-                    
-                    text7.setEnabled(false);
-                    text8.setEnabled(false);
-                    text9.setEnabled(false);
-                    label14.setVisible(false);
-                    list.setVisible(false);
-                    label10.setVisible(false);
-                    box10.setVisible(false);
-                    labelDropdown.setVisible(false);
-                    dropdown.setVisible(false);
-                    jScrollPane2.setVisible(false);
+            System.out.println(softwareList.get(i).get("_id").toString());
+            
+        }*/
+                }
 
-                    if(selectedObject != null)
-                    {
-                        text1.setText(selectedObject.get("machine").toString());
-                        text2.setText(selectedObject.get("name").toString());
-                        text3.setText(selectedObject.get("serial").toString());
-                        text4.setText(selectedObject.get("stock").toString());
-                        text5.setText(selectedObject.get("mac").toString());
-                        
-                        
-                        //text2.setText(selectedObject.get("version").toString());
-                    
-                       if(selectedObject.get("monitor") != null)
-                          System.out.println(selectedObject.get("tools").toString());
-                    
+                break;
+
+            case 3:
+                label1.setText("Machine:");
+                label2.setText("Name:");
+                label3.setText("Serial #:");
+                label4.setText("MAC:");
+                label5.setText("STOCK:");
+
+                label6.setText("Monitor");
+                label7.setText("Model:");
+                label8.setText("Serial #:");
+                label9.setText("STOCK:");
+                label15.setText("Comment:");
+
+                text7.setEnabled(false);
+                text8.setEnabled(false);
+                text9.setEnabled(false);
+                label14.setVisible(false);
+                list.setVisible(false);
+                label10.setVisible(false);
+                box10.setVisible(false);
+                labelDropdown.setVisible(false);
+                dropdown.setVisible(false);
+                jScrollPane2.setVisible(false);
+
+                if (selectedObject != null) {
+                    text1.setText(selectedObject.get("machine").toString());
+                    text2.setText(selectedObject.get("name").toString());
+                    text3.setText(selectedObject.get("serial").toString());
+                    text4.setText(selectedObject.get("stock").toString());
+                    text5.setText(selectedObject.get("mac").toString());
+
+                    //text2.setText(selectedObject.get("version").toString());
+                    if (selectedObject.get("monitor") != null) {
+                        BasicDBList monitors = (BasicDBList) selectedObject.get("monitor");
+                        for (Iterator<Object> it = monitors.iterator(); it.hasNext();) {
+                            BasicDBObject dbo = (BasicDBObject) it.next();
+
+                            text7.setText(dbo.get("monitor").toString());
+                            text8.setText(dbo.get("mSerial").toString());
+                            text9.setText(dbo.get("mStock").toString());
+                        }
+
                     }
-                    
-                    
-                    break;
-                    
-            case 4: label1.setText("Classroom:");
-                    label2.setText("Capacity:");
-                    label10.setText("Video Conferencing:");
-                    label15.setText("Comment:");
 
-                    
-                    label6.setVisible(false);
-                    box6.setVisible(false);
-                    text7.setVisible(false);
-                    text8.setVisible(false);
-                    text9.setVisible(false);
-                    label7.setVisible(false);
-                    label8.setVisible(false);
-                    label9.setVisible(false);
-                    
-                    label3.setVisible(false);
-                    text3.setVisible(false);
-                    label4.setVisible(false);
-                    text4.setVisible(false);
-                    label5.setVisible(false);
-                    text5.setVisible(false);
-                   
-                    label14.setVisible(false);
-                    list.setVisible(false);
-                    dropdown.setVisible(false);
-                    jScrollPane2.setVisible(false);
-                    labelDropdown.setVisible(false);
-                    
-                    if(selectedObject != null)
-                    {
-                    
+                }
+
+                break;
+
+            case 4:
+                label1.setText("Classroom:");
+                label2.setText("Capacity:");
+                label10.setText("Video Conferencing:");
+                label15.setText("Comment:");
+
+                label6.setVisible(false);
+                box6.setVisible(false);
+                text7.setVisible(false);
+                text8.setVisible(false);
+                text9.setVisible(false);
+                label7.setVisible(false);
+                label8.setVisible(false);
+                label9.setVisible(false);
+
+                label3.setVisible(false);
+                text3.setVisible(false);
+                label4.setVisible(false);
+                text4.setVisible(false);
+                label5.setVisible(false);
+                text5.setVisible(false);
+
+                label14.setVisible(false);
+                list.setVisible(false);
+                dropdown.setVisible(false);
+                jScrollPane2.setVisible(false);
+                labelDropdown.setVisible(false);
+
+                if (selectedObject != null) {
+
                     text1.setText(selectedObject.get("classroom").toString());
                     text2.setText(selectedObject.get("capacity").toString());
                     box10.setEnabled((boolean) selectedObject.get("videoconferencing"));
-                    
-                    
-                   
-                    
-                    
+
+                }
+
         }
-        
-        
-        
     }
-    }
-     private void setUpForm()
-    {
+
+    private void setUpForm() {
         DBObject newObject = null;
         setUpForm(newObject);
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -551,7 +776,6 @@ public class UpdateRecord extends javax.swing.JFrame {
     private javax.swing.JCheckBox box10;
     private javax.swing.JCheckBox box6;
     private javax.swing.JComboBox<String> dropdown;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -579,5 +803,6 @@ public class UpdateRecord extends javax.swing.JFrame {
     private javax.swing.JTextField text8;
     private javax.swing.JTextField text9;
     private javax.swing.JTextArea textBox;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

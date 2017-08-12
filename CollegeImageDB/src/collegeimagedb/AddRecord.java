@@ -28,15 +28,15 @@ public class AddRecord extends javax.swing.JFrame {
      * Creates new form AddRecord
      */
     Database db = new Database();
-    ArrayList<String> listSoftware; 
-    ArrayList<String> listClassroom; 
-    
+    ArrayList<String> listSoftware;
+    ArrayList<String> listClassroom;
+
     public AddRecord() {
-        
+
         boolean status = db.Connect("localhost", 27017);
 
         initComponents();
-	
+
         modelField.setEditable(false);
         mSerialField.setEditable(false);
         mStockField.setEditable(false);
@@ -44,45 +44,37 @@ public class AddRecord extends javax.swing.JFrame {
         accessory2.setEditable(false);
         accessory3.setEditable(false);
 
-        
         ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
-		softwareList = db.getSoftware();
+        softwareList = db.getSoftware();
         listSoftware = new ArrayList<String>();
 
-       DefaultListModel listModel = new DefaultListModel();
-        for(int i = 0; i < softwareList.size(); i++)
-        {
+        DefaultListModel listModel = new DefaultListModel();
+        for (int i = 0; i < softwareList.size(); i++) {
 
-            String option = softwareList.get(i).get("title").toString() + " - " +
-                    softwareList.get(i).get("version").toString();
+            String option = softwareList.get(i).get("title").toString() + " - "
+                    + softwareList.get(i).get("version").toString();
             listSoftware.add(option);
-            
+
             listModel.addElement(option);
         }
 
         softwareJList.setModel(listModel);
-        
-         ArrayList<DBObject> classroomList = new ArrayList<DBObject>();
-		classroomList = db.getLocation();
+
+        ArrayList<DBObject> classroomList = new ArrayList<DBObject>();
+        classroomList = db.getLocation();
         listClassroom = new ArrayList<String>();
         System.out.println(classroomList);
         locationComboBox.addItem("");
-        for(int i = 0; i < classroomList.size(); i++)
-        {
+        for (int i = 0; i < classroomList.size(); i++) {
             String option = classroomList.get(i).get("classroom").toString();
 
             listClassroom.add(option);
-            
+
             locationComboBox.addItem(option);
         }
-             System.out.println("End");
+        System.out.println("End");
 
-
-       
-        
-       
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -619,63 +611,53 @@ public class AddRecord extends javax.swing.JFrame {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
-        
+
         String selectedIndex = jTabbedPane1.getTitleAt(jTabbedPane1.getSelectedIndex());
         System.out.println(selectedIndex);
         //Object selected = collectionList.getSelectedItem();
-        
+
         ///////////////////////////////////////////////////////////////////////
         // Software
         //
         ///////////////////////////////////////////////////////////////////////
-        if(selectedIndex.equals("Software"))
-        {     
-        boolean missingSoftware = true;
-        boolean missingVersion = true;
-        String softwareName = null;
-        String vNumber = null;
-        String[] tools = new String [3];     
-                    System.out.println("Software here?");
-            if(softwareField.getText().toString() != "")
-            {
-                        System.out.println("yes Software");
+        if (selectedIndex.equals("Software")) {
+            boolean missingSoftware = true;
+            boolean missingVersion = true;
+            String softwareName = null;
+            String vNumber = null;
+            String[] tools = new String[3];
+            System.out.println("Software here?");
+            if (softwareField.getText().toString() != "") {
+                System.out.println("yes Software");
                 softwareName = softwareField.getText().toString();
                 missingSoftware = false;
             }
             System.out.println("Version here?");
-            if(versionField.getText().toString() != "")
-            {
+            if (versionField.getText().toString() != "") {
                 System.out.println("yes Version");
                 vNumber = versionField.getText().toString();
                 missingVersion = false;
             }
-            System.out.println("'"+toolfield1.getText().toString()+"'");
-            if(!(toolfield1.getText().toString()).isEmpty())
-            {
+            System.out.println("'" + toolfield1.getText().toString() + "'");
+            if (!(toolfield1.getText().toString()).isEmpty()) {
                 tools[0] = toolfield1.getText().toString();
-                System.out.println("Hello"+toolfield1.getText().toString());
-                if(!(toolfield2.getText().toString()).isEmpty())
-                {
+                System.out.println("Hello" + toolfield1.getText().toString());
+                if (!(toolfield2.getText().toString()).isEmpty()) {
                     tools[1] = toolfield2.getText().toString();
-                    if(!(toolfield3.getText().toString()).isEmpty())
-                    {
+                    if (!(toolfield3.getText().toString()).isEmpty()) {
                         tools[2] = toolfield3.getText().toString();
                     }
                 }
             }
-            
-            if(missingSoftware == true || missingVersion == true)
-            {
+
+            if (missingSoftware == true || missingVersion == true) {
                 System.out.println("Missing a mandatory field, check Software or version fields are not empty.");
-            }
-            else{
-                if(tools[0]==null )
-                {
+            } else {
+                if (tools[0] == null) {
                     System.out.println("No Array");
                     boolean success = db.addRecordSoftware(softwareName, vNumber);
                     System.out.println(success);
-                }
-                else{
+                } else {
                     boolean success = db.addRecordSoftware(softwareName, vNumber, tools);
                     System.out.println(success);
                 }
@@ -685,66 +667,56 @@ public class AddRecord extends javax.swing.JFrame {
         // Classrooms
         //
         ///////////////////////////////////////////////////////////////////////
-        
-                if(selectedIndex.equals("Classrooms"))
-        {          
+
+        if (selectedIndex.equals("Classrooms")) {
             boolean missingClassroom = true;
             boolean missingCapacity = true;
             String classroom = null;
             String capacity = null;
             boolean video = false;
             String comment = null;
-                    System.out.println("Software here?");
-            if(classroomField.getText().toString() != "")
-            {
-                        System.out.println("yes classs");
+            System.out.println("Software here?");
+            if (classroomField.getText().toString() != "") {
+                System.out.println("yes classs");
                 classroom = classroomField.getText().toString();
                 missingClassroom = false;
             }
             System.out.println("capacity here?");
-            if(capacityField.getText().toString() != "")
-            {
+            if (capacityField.getText().toString() != "") {
                 System.out.println("yes Capaccity");
                 capacity = capacityField.getText().toString();
-               missingCapacity = false;
+                missingCapacity = false;
             }
             video = videoCheckbox.isSelected();
             System.out.println("Comment");
-            System.out.println(commentTextArea.getText().trim() );
-            
-            if(commentTextArea.getText()!=null||!commentTextArea.getText().isEmpty())
-            {
+            System.out.println(commentTextArea.getText().trim());
+
+            if (commentTextArea.getText() != null || !commentTextArea.getText().isEmpty()) {
                 System.out.println("yes Comment");
                 comment = commentTextArea.getText().toString();
             } else {
             }
-            
-            if(missingClassroom == true || missingCapacity == true)
-            {
+
+            if (missingClassroom == true || missingCapacity == true) {
                 System.out.println("Missing a mandatory field, check Software or version fields are not empty.");
-            }
-            else{
-                if(commentTextArea.getText()==null || commentTextArea.getText().isEmpty())
-                {
+            } else {
+                if (commentTextArea.getText() == null || commentTextArea.getText().isEmpty()) {
                     System.out.println("No Comment");
                     boolean success = db.addRecordLocation(classroom, capacity, video);
                     System.out.println(success);
-                }
-                else{
+                } else {
                     System.out.println("yes Comment");
                     boolean success = db.addRecordLocation(classroom, capacity, video, comment);
                     System.out.println(success);
                 }
             }
         }
-        
+
         ///////////////////////////////////////////////////////////////////////
         // Hardware
         //
         ///////////////////////////////////////////////////////////////////////
-        
-        if(selectedIndex.equals("Hardware"))
-        {          
+        if (selectedIndex.equals("Hardware")) {
             boolean missingMachine = true;
             boolean missingMAC = true;
             boolean missingSerial = true;
@@ -760,109 +732,88 @@ public class AddRecord extends javax.swing.JFrame {
             String monitorStock = null;
             String comment = null;
 
-                    System.out.println("Software here?");
-            if(machineField.getText().toString() != "")
-            {
+            System.out.println("Software here?");
+            if (machineField.getText().toString() != "") {
                 System.out.println("yes machine");
                 machine = machineField.getText().toString();
                 missingMachine = false;
             }
             System.out.println("MAC here?");
-            if(macField.getText().toString() != "")
-            {
+            if (macField.getText().toString() != "") {
                 System.out.println("yes Mac");
                 mac = macField.getText().toString();
-               missingMAC = false;
+                missingMAC = false;
             }
             System.out.println("name here?");
-            if(nameField.getText().toString() != "")
-            {
+            if (nameField.getText().toString() != "") {
                 System.out.println("yes name");
                 name = nameField.getText().toString();
-               missingName = false;
+                missingName = false;
             }
-            if(serialField.getText().toString() != "")
-            {
+            if (serialField.getText().toString() != "") {
                 System.out.println("yes serial");
                 serial = serialField.getText().toString();
-               missingSerial = false;
+                missingSerial = false;
             }
-            if(stockField.getText().toString() != "")
-            {
+            if (stockField.getText().toString() != "") {
                 System.out.println("yes stock");
                 stock = stockField.getText().toString();
-               missingStock = false;
+                missingStock = false;
             }
 
-            if(monitorCheck.isSelected())
-            {
-            if(modelField.getText().toString() != "")
-            {
-                System.out.println("yes model");
-                monitorModel = modelField.getText().toString();
-                if(mSerialField.getText().toString() != "")
-            {
-                System.out.println("yes Monior serial");
-                monitorSerial = mSerialField.getText().toString();
-                if(mStockField.getText().toString() != "")
-            {
-                System.out.println("yes stock");
-                monitorStock = mStockField.getText().toString();
-            }
-            }
-            }
+            if (monitorCheck.isSelected()) {
+                if (modelField.getText().toString() != "") {
+                    monitorModel = modelField.getText().toString();
+                    System.out.println(monitorModel);
+                    if (mSerialField.getText().toString() != "") {
+                        monitorSerial = mSerialField.getText().toString();
+                        System.out.println(monitorSerial);
+                        if (mStockField.getText().toString() != "") {
+                            monitorStock = mStockField.getText().toString();
+                            System.out.println(monitorStock);
+                        }
+                    }
+                }
             }
             System.out.println("MAC here?");
-            
-            
+
             System.out.println("Comment");
-            System.out.println(commentTextArea.getText().length() );
-            
-            if(commentTextArea2.getText().length() > 0)
-            {
+            System.out.println(commentTextArea.getText().length());
+
+            if (commentTextArea2.getText().length() > 0) {
                 System.out.println("yes Comment");
                 comment = commentTextArea2.getText().toString();
             } else {
             }
-            
-            if(missingMachine == true || missingName == true || missingMAC == true || missingSerial == true || missingStock == true)
-            {
+
+            if (missingMachine == true || missingName == true || missingMAC == true || missingSerial == true || missingStock == true) {
                 System.out.println("Missing a mandatory field, check Software or version fields are not empty.");
-            }
-            else{
-                if(commentTextArea2.getText().length() == 0 && monitorCheck.isSelected()==true)
-                {
+            } else {
+                if (commentTextArea2.getText().length() == 0 && monitorCheck.isSelected() == true) {
                     System.out.println("No Comment");
-                    boolean success = db.addRecordHardware(machine, name, serial,stock,mac,monitorModel,monitorSerial,monitorStock);
+                    boolean success = db.addRecordHardware(machine, name, serial, stock, mac, monitorModel, monitorSerial, monitorStock);
                     System.out.println(success);
-                }
-                else if(commentTextArea2.getText().length() > 0 && monitorCheck.isSelected()==false)
-                {
+                } else if (commentTextArea2.getText().length() > 0 && monitorCheck.isSelected() == false) {
                     System.out.println("No monitor");
-                    boolean success = db.addRecordHardware(machine, name, serial,stock,mac, comment);
+                    boolean success = db.addRecordHardware(machine, name, serial, stock, mac, comment);
                     System.out.println(success);
-                }
-                else if(commentTextArea2.getText().length() == 0 && monitorCheck.isSelected()==false)
-                {
+                } else if (commentTextArea2.getText().length() == 0 && monitorCheck.isSelected() == false) {
                     System.out.println("No nothing");
-                    boolean success = db.addRecordHardware(machine, name, serial,stock,mac);
+                    boolean success = db.addRecordHardware(machine, name, serial, stock, mac);
                     System.out.println(success);
-                }
-                else{
+                } else {
                     System.out.println("yes everything");
-                     boolean success = db.addRecordHardware(machine, name, serial,stock,mac,monitorModel,monitorSerial,monitorStock,comment);
+                    boolean success = db.addRecordHardware(machine, name, serial, stock, mac, monitorModel, monitorSerial, monitorStock, comment);
                     System.out.println(success);
                 }
             }
         }
-        
+
         ///////////////////////////////////////////////////////////////////////
         // Images
         //
         ///////////////////////////////////////////////////////////////////////
-        
-        if(selectedIndex.equals("Images"))
-        {          
+        if (selectedIndex.equals("Images")) {
             boolean missingMachine = true;
             boolean missingImage = true;
             boolean missingLocation = true;
@@ -873,87 +824,70 @@ public class AddRecord extends javax.swing.JFrame {
             ArrayList<String> accessories = new ArrayList<String>();
             String comment = null;
 
-            
-            if(machineField2.getText().toString() != "")
-            {
+            if (machineField2.getText().toString() != "") {
                 System.out.println("yes machine");
                 machine = machineField2.getText().toString();
                 missingMachine = false;
             }
             System.out.println("image here?");
-            if(imageField.getText().toString() != "")
-            {
+            if (imageField.getText().toString() != "") {
                 System.out.println("yes image");
                 image = imageField.getText().toString();
                 missingImage = false;
             }
             System.out.println("location here?");
-            if(locationComboBox.getSelectedItem().toString() != "")
-            {
+            if (locationComboBox.getSelectedItem().toString() != "") {
                 System.out.println("yes location");
                 location = locationComboBox.getSelectedItem().toString();
-               missingLocation = false;
+                missingLocation = false;
             }
-            
-        
-            int [] selectedIndexes = softwareJList.getSelectedIndices();
 
-                if(selectedIndexes.length != 0)
-                    missingSoftware = false;
-            
-            if (accessoryCheck.isSelected()==true)
-            {
-                if(!accessory1.equals(""))
-                {
+            int[] selectedIndexes = softwareJList.getSelectedIndices();
+
+            if (selectedIndexes.length != 0) {
+                missingSoftware = false;
+            }
+
+            if (accessoryCheck.isSelected() == true) {
+                if (!accessory1.equals("")) {
                     accessories.add(accessory1.getText());
                     System.out.println(accessories.get(0));
-                    if(!accessory2.equals(""))
-                    {
+                    if (!accessory2.equals("")) {
                         accessories.add(accessory2.getText());
                         System.out.println(accessories.get(1));
-                        if(!accessory3.equals(""))
-                    {
-                        accessories.add(accessory3.getText());
-                        System.out.println(accessories.get(2));
+                        if (!accessory3.equals("")) {
+                            accessories.add(accessory3.getText());
+                            System.out.println(accessories.get(2));
+                        }
                     }
-                    }
-                }   
+                }
             }
-           System.out.println(commentTextArea3.getText());
-            if(commentTextArea3.getText().length() > 0)
-            {
+            System.out.println(commentTextArea3.getText());
+            if (commentTextArea3.getText().length() > 0) {
                 System.out.println("There was a comment");
                 comment = commentTextArea3.getText();
                 System.out.println(comment);
 
-            } 
-            
-            if(missingMachine == true || missingImage == true || missingLocation == true || missingSoftware == true)
-            {
-                System.out.println("Missing a mandatory field, check Software or version fields are not empty.");
             }
-            else{
-                if(commentTextArea3.getText().length() == 0 && accessoryCheck.isSelected()==false)
-                {
+
+            if (missingMachine == true || missingImage == true || missingLocation == true || missingSoftware == true) {
+                System.out.println("Missing a mandatory field, check Software or version fields are not empty.");
+            } else {
+                if (commentTextArea3.getText().length() == 0 && accessoryCheck.isSelected() == false) {
                     System.out.println("No comment or accessories");
                     boolean success = db.addRecordImage(machine, image, location, selectedIndexes);
                     System.out.println(success);
-                }
-                else if(commentTextArea3.getText().length() == 0 && accessoryCheck.isSelected()==true)
-                {
+                } else if (commentTextArea3.getText().length() == 0 && accessoryCheck.isSelected() == true) {
                     System.out.println("No Comment");
                     boolean success = db.addRecordImage(machine, image, location, selectedIndexes, accessories);
                     System.out.println(success);
-                }
-                else if(commentTextArea3.getText().length() > 0 && accessoryCheck.isSelected()==false)
-                {
+                } else if (commentTextArea3.getText().length() > 0 && accessoryCheck.isSelected() == false) {
                     System.out.println("No Accessories");
                     boolean success = db.addRecordImage(machine, image, location, selectedIndexes, comment);
                     System.out.println(success);
-                }
-                else{
+                } else {
                     System.out.println("everythings here");
-                    boolean success = db.addRecordImage(machine, image, location, selectedIndexes,accessories ,comment);
+                    boolean success = db.addRecordImage(machine, image, location, selectedIndexes, accessories, comment);
                     System.out.println(success);
                 }
             }
@@ -970,48 +904,40 @@ public class AddRecord extends javax.swing.JFrame {
 
     private void monitorCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monitorCheckActionPerformed
 
-    if(monitorCheck.isSelected())
-     {
-        modelField.setEditable(true);
-        mSerialField.setEditable(true);
-        mStockField.setEditable(true);
-     }
-  else{
-        
-         modelField.setEditable(false);
-        mSerialField.setEditable(false);
-        mStockField.setEditable(false);
-  }
+        if (monitorCheck.isSelected()) {
+            modelField.setEditable(true);
+            mSerialField.setEditable(true);
+            mStockField.setEditable(true);
+        } else {
 
-
-
-
+            modelField.setEditable(false);
+            mSerialField.setEditable(false);
+            mStockField.setEditable(false);
+        }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_monitorCheckActionPerformed
 
     private void accessoryCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accessoryCheckActionPerformed
 
-  if(accessoryCheck.isSelected())
-     {
-        accessory1.setEditable(true);
-        accessory2.setEditable(true);
-        accessory3.setEditable(true);
-     }
-  else{
-        
-        accessory1.setEditable(false);
-        accessory2.setEditable(false);
-        accessory3.setEditable(false);
-  }
+        if (accessoryCheck.isSelected()) {
+            accessory1.setEditable(true);
+            accessory2.setEditable(true);
+            accessory3.setEditable(true);
+        } else {
+
+            accessory1.setEditable(false);
+            accessory2.setEditable(false);
+            accessory3.setEditable(false);
+        }
 
 
     }//GEN-LAST:event_accessoryCheckActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
 
-       this.setVisible(false);
-       new Menu().setVisible(true);
+        this.setVisible(false);
+        new Menu().setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_backButtonActionPerformed
 

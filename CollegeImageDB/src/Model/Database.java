@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.text.Document;
 import org.bson.BsonDocument;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -100,13 +101,10 @@ public class Database {
         
         DBCollection collection =  getCollection("school");
         BasicDBObject query = new BasicDBObject();
-        BasicDBObject fields = new BasicDBObject();
+
         ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
         
-        fields.put("title",1);
-        fields.put("version",1);
-        
-        DBCursor cursor = collection.find(query, fields);
+        DBCursor cursor = collection.find(query);
         while (cursor.hasNext())
         {
             DBObject software = cursor.next();
@@ -122,12 +120,10 @@ public class Database {
         
         DBCollection collection =  getCollection("schoolLocation");
         BasicDBObject query = new BasicDBObject();
-        BasicDBObject fields = new BasicDBObject();
         ArrayList<DBObject> classroomList = new ArrayList<DBObject>();
+       
         
-        fields.put("classroom",1);
-        
-        DBCursor cursor = collection.find(query, fields);
+        DBCursor cursor = collection.find(query);
         while (cursor.hasNext())
         {
             DBObject classroom = cursor.next();
@@ -143,13 +139,10 @@ public class Database {
         
         DBCollection collection =  getCollection("schoolHardware");
         BasicDBObject query = new BasicDBObject();
-        BasicDBObject fields = new BasicDBObject();
+
         ArrayList<DBObject> hardwareList = new ArrayList<DBObject>();
-        
-        fields.put("machine",1);
-        fields.put("name",1);
-        fields.put("mac",1);       
-        DBCursor cursor = collection.find(query, fields);
+
+        DBCursor cursor = collection.find(query);
         while (cursor.hasNext())
         {
             DBObject hardware = cursor.next();
@@ -165,12 +158,10 @@ public class Database {
         
         DBCollection collection =  getCollection("images");
         BasicDBObject query = new BasicDBObject();
-        BasicDBObject fields = new BasicDBObject();
         ArrayList<DBObject> imageList = new ArrayList<DBObject>();
+
         
-        fields.put("image",1);
-        
-        DBCursor cursor = collection.find(query, fields);
+        DBCursor cursor = collection.find(query);
         while (cursor.hasNext())
         {
             DBObject image = cursor.next();
@@ -190,6 +181,7 @@ public class Database {
     
     public DBCollection getCollection(String name)
     {
+        System.out.println(name);
         DBCollection collection = db.getCollection(name);
         
         return collection;
@@ -463,6 +455,21 @@ public class Database {
          DBCollection collection = getCollection(collectionSelected);
          collection.remove(record);
          System.out.println("record Deleted");
+     }
+     
+     public boolean update(BasicDBObject record, String collectionSelected, String id)
+     {
+         boolean success = false;
+          try{
+         DBCollection collection = getCollection(collectionSelected);
+         
+         collection.update(new BasicDBObject("_id",new ObjectId(id)), record);
+         System.out.println("Record Updated");
+         success = true;
+          }catch(MongoException e)
+         {System.out.println("System could not update record " + e);   }
+         
+         return success;
      }
      
      

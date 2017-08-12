@@ -69,6 +69,7 @@ public class SearchRecord extends javax.swing.JFrame {
                     System.out.println(searchResults);
                     if (index >= 0) {
                         DBObject selectedObject = searchResults.get(index);
+                        System.out.println(selectedObject);
 
                         if (getFunctionType() == 0) {
                             int dataType = 0;
@@ -96,7 +97,28 @@ public class SearchRecord extends javax.swing.JFrame {
                         }
 
                         if (getFunctionType() == 1) {
-                            moveToUpdate(selectedObject);
+                                                        int dataType = 0;
+                            if (collectionsList.getSelectedItem().toString().equals("school")) {
+                                dataType = 1;
+                            }
+
+                            if (collectionsList.getSelectedItem().toString().equals("schoolHardware")) {
+                                dataType = 3;
+                            }
+
+                            if (collectionsList.getSelectedItem().toString().equals("schoolLocation")) {
+                                dataType = 4;
+                            }
+
+                            if (collectionsList.getSelectedItem().toString().equals("images")) {
+                                dataType = 2;
+                            }
+                            if (dataType != 0) {
+                                moveToUpdate(selectedObject, dataType);
+                            } else {
+                                System.out.println(dataType);
+                            }
+                            
                         }
 
                         if (getFunctionType() == 2) {
@@ -382,9 +404,9 @@ public class SearchRecord extends javax.swing.JFrame {
         });
     }
 
-    public void moveToUpdate(DBObject selectedObject) {
+    public void moveToUpdate(DBObject selectedObject, int dataType) {
         this.setVisible(false);
-        new UpdateRecord(1, selectedObject).setVisible(true);
+        new UpdateRecord(dataType, selectedObject).setVisible(true);
 
     }
 
