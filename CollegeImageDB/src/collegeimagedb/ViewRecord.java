@@ -490,8 +490,8 @@ public class ViewRecord extends javax.swing.JFrame {
                         }
 
                     }
-                   ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
-                   System.out.println(softwareList);
+                   ArrayList<DBObject> softwareList;
+                   //System.out.println(softwareList);
                     softwareList = db.getSoftware();
                     
         DefaultListModel listModel = new DefaultListModel();

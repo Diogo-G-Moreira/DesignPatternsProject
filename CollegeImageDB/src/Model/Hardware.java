@@ -9,6 +9,46 @@ package Model;
  *
  * @author Diogo
  */
-public class Hardware {
+public abstract class Hardware {
     
+    String machine;
+    String serial;
+    String stock;
+
+    public String getMachine() {
+        throw new UnsupportedOperationException();
+    }
+
+    public String getSerial() {
+        throw new UnsupportedOperationException();
+    }
+
+    public String getStock() {
+        throw new UnsupportedOperationException();
+    }
+
+    public void setMachine(String machine) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void setSerial(String serial) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void setStock(String stock) {
+        throw new UnsupportedOperationException();
+    }
+    
+    public void add(Hardware hardware) {
+       throw new UnsupportedOperationException();
+    }
+    
+    public boolean update(Hardware hardware) {
+       throw new UnsupportedOperationException();
+    }
+    
+    public void delete(Hardware hardware) {
+       throw new UnsupportedOperationException();
+    }
+   
 }

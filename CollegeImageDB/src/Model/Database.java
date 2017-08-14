@@ -99,7 +99,8 @@ public class Database {
         public ArrayList<DBObject> getSoftware ()
     {
         
-        DBCollection collection =  getCollection("school");
+        DBCollection collection = null;
+        collection = getCollection("school");
         BasicDBObject query = new BasicDBObject();
 
         ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
@@ -182,7 +183,8 @@ public class Database {
     public DBCollection getCollection(String name)
     {
         System.out.println(name);
-        DBCollection collection = db.getCollection(name);
+        DBCollection collection = null;
+        collection = db.getCollection(name);
         
         return collection;
     }

@@ -16,7 +16,8 @@ public class CollegeImageDB {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        AddRecord add = new AddRecord();
+        LoginPage login = new LoginPage();
+        login.setVisible(true);
     }
     
 }
