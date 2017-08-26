@@ -18,8 +18,11 @@ public class Computer  extends Hardware{
     String stock;
     String mac;
     String name;
+    String type = "computer";
     
     ArrayList<Hardware> additional = new ArrayList<Hardware>();
+    
+    ArrayList<Comment> comment = new ArrayList<Comment>();
     
     public Computer(String machine,String serial,String stock,String mac,String name)
     {
@@ -82,6 +85,14 @@ public class Computer  extends Hardware{
     public void setAdditional(ArrayList<Hardware> additional) {
         this.additional = additional;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
     
     
     
@@ -110,8 +121,13 @@ public class Computer  extends Hardware{
     public void delete(Hardware hardware) {
        additional.remove(hardware);
     }
-    
-    
-    
-    
+
+    public ArrayList<Comment> getComment() {
+        return comment;
+    }
+
+    public void setComment(ArrayList<Comment> comment) {
+        this.comment = comment;
+    }
+     
 }

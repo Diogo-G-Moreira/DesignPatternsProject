@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Diogo
@@ -14,6 +16,9 @@ public class Monitor extends Hardware{
     String machine;
     String serial;
     String stock;
+    String type = "monitor";
+    
+    ArrayList<Comment> comments = new ArrayList<Comment>();
 
     public Monitor(String machine, String serial, String stock)
     {
@@ -45,5 +50,25 @@ public class Monitor extends Hardware{
     public void setStock(String stock) {
         this.stock = stock;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public ArrayList<Comment> getComment() {
+        return comments;
+    }
+
+
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setComment(ArrayList<Comment> comment) {
+        this.comments = comment;
+    }
+    
+    
 
 }

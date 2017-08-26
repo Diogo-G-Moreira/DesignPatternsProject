@@ -54,6 +54,11 @@ public class Database {
          return connectionStatus;   
 }
      
+    public void Disconnect (){
+         
+        mongo.close();  
+}
+     
      
     public MongoCursor<String> getDBs ()
     {
@@ -75,8 +80,12 @@ public class Database {
     
     public boolean validAccount(String account, String password)
     {
-        
         boolean results = false;
+        boolean connect = Connect("localhost",27017);
+        System.out.println("Im here");
+        if(connect==true)
+        {
+            System.out.println("Im here 2");
         DBCollection collection =  getCollection("accounts");
         BasicDBObject query = new BasicDBObject();
         BasicDBObject field = new BasicDBObject();
@@ -89,11 +98,17 @@ public class Database {
         
  
         DBCursor cursor = collection.find(query);
-        if (cursor.hasNext())
-            results = true;
+        if (cursor.hasNext()){
+            if(cursor.hasNext() == true)
+                results = true;
+        }
+        else{
+            System.out.println("Account not Found");
+        }
         
-        
-
+       
+        }
+         Disconnect();
         return results;
     }
         public ArrayList<DBObject> getSoftware ()
@@ -452,28 +467,71 @@ public class Database {
          return success;
      }
      
-     public void delete(DBObject record, String collectionSelected)
-     {
-         DBCollection collection = getCollection(collectionSelected);
-         collection.remove(record);
-         System.out.println("record Deleted");
-     }
      
-     public boolean update(BasicDBObject record, String collectionSelected, String id)
+     public boolean add(DBObject record, String collectionSelected)
      {
          boolean success = false;
-          try{
+         try{
          DBCollection collection = getCollection(collectionSelected);
-         
-         collection.update(new BasicDBObject("_id",new ObjectId(id)), record);
-         System.out.println("Record Updated");
+         collection.insert(record);
          success = true;
-          }catch(MongoException e)
-         {System.out.println("System could not update record " + e);   }
-         
+         System.out.println("Record Inserted.");
+         }catch(MongoException e){
+         System.out.println("Record failed to Insert.");
+         System.out.println(e);
+         }
          return success;
      }
      
      
      
-}
+     public boolean delete(DBObject record, String collectionSelected)
+     {
+         boolean success = false;
+         try{
+         DBCollection collection = getCollection(collectionSelected);
+         collection.remove(record);
+         success = true;
+         System.out.println("Record Deleted");
+         }catch(MongoException e){
+         System.out.println("Record Failed to Delete");
+         System.out.println(e);
+         }
+         return success;
+     }
+     
+     public boolean update(BasicDBObject record, String collectionSelected, String id)
+     {
+         boolean success = false;
+         try{
+         DBCollection collection = getCollection(collectionSelected);
+         
+         collection.update(new BasicDBObject("_id",new ObjectId(id)), record);
+         System.out.println("Record Updated");
+         success = true;          
+         }catch(MongoException e)
+         {System.out.println("System could not update record");  
+         System.out.println(e);}
+         
+         return success;
+     }
+     
+     public ArrayList<DBObject> getAllRecords(String collectionName){
+         
+        DBCollection collection =  getCollection(collectionName);
+        BasicDBObject query = new BasicDBObject();
+        ArrayList<DBObject> classroomList = new ArrayList<DBObject>();
+       
+        
+        DBCursor cursor = collection.find(query);
+        while (cursor.hasNext())
+        {
+            DBObject classroom = cursor.next();
+            classroomList.add(classroom);
+        }
+
+        return classroomList;
+         
+     }
+     
+} 
