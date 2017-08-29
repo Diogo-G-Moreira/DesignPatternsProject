@@ -5,44 +5,62 @@
  */
 package Model;
 
+import com.mongodb.DBObject;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  *
  * @author Diogo
  */
-public abstract class Message {
+abstract class Message {
     
     
     String content;
     
-    User userEdited;
+    String userEdited;
     
     Date date;
 
-
-    public void setContent(String content) {
-       throw new UnsupportedOperationException();
+    
+    
+    
+    public void send(ArrayList <DBObject> results){
+        throw new UnsupportedOperationException();
+    }
+    
+    public ArrayList <DBObject> setup(){
+        throw new UnsupportedOperationException();
+    }
+    
+    public void prepare(){
+        ArrayList <DBObject> results = setup();
+        send(results);
     }
 
-    public void setUserEdited(User userEdited) {
-       throw new UnsupportedOperationException();
+    public void setContent(String content) {
+       this.content = content;
+    }
+
+    public void setUserEdited(String userEdited) {
+       this.userEdited = userEdited;
     }
 
     public void setCalendar(Date date) {
-        throw new UnsupportedOperationException();
+        
+        this.date = date;
     }
 
     public String getContent() {
-        throw new UnsupportedOperationException();
+        return content;
     }
 
-    public User getUserEdited() {
-        throw new UnsupportedOperationException();
+    public String getUserEdited() {
+        return userEdited;
     }
 
     public Date getCalendar() {
-        throw new UnsupportedOperationException();
+        return date;
     }
      
 }

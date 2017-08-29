@@ -94,8 +94,11 @@ public class DatabaseProxy implements Proxy {
     }
 
     @Override
-    public void getRecord(DBObject dbo, String collection) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<DBObject> getRecord(BasicDBObject dbo, String collection) {
+        
+        ArrayList<DBObject> results = db.getRecords(collection, dbo);
+        return results;
+        
     }
 
 

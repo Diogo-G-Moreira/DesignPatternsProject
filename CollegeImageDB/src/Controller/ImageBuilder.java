@@ -10,6 +10,7 @@ import Model.Computer;
 import Model.Image;
 import Model.User;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,14 +73,26 @@ public class ImageBuilder implements Builder {
 
     }
 
-    public void build(String image, String machine, String location, String[] accessories, ArrayList<String> softwareInstalled) {
+    public void build(String image, String machine, String location, String[] accessories, int [] softwareInstalled) {
         
         this.image = image;
         this.machine = machine;
        
         this.location = location;
         this.accessories = accessories;
-        this.softwareInstalled = softwareInstalled;
+        
+        DatabaseProxy dbp = new DatabaseProxy();
+        ArrayList <DBObject> records = dbp.getAllRecords("school");
+        
+        
+        for (int i = 0;i < softwareInstalled.length;i++)
+         {
+             DBObject object = records.get(softwareInstalled[i]);
+   
+             this.softwareInstalled.add(object.get("_id").toString());
+
+         }
+        dbp = null;
         createObject();
     }
 
@@ -89,5 +102,6 @@ public class ImageBuilder implements Builder {
         Comment comment = new Comment(content, user, date);
         imageObj.addComment(comment);
     }
+    
 
 }

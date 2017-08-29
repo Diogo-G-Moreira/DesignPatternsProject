@@ -472,6 +472,7 @@ public class Database {
      {
          boolean success = false;
          try{
+         Connect("localhost",27017); 
          DBCollection collection = getCollection(collectionSelected);
          collection.insert(record);
          success = true;
@@ -480,6 +481,7 @@ public class Database {
          System.out.println("Record failed to Insert.");
          System.out.println(e);
          }
+         Disconnect();
          return success;
      }
      
@@ -489,6 +491,7 @@ public class Database {
      {
          boolean success = false;
          try{
+         Connect("localhost",27017); 
          DBCollection collection = getCollection(collectionSelected);
          collection.remove(record);
          success = true;
@@ -497,6 +500,7 @@ public class Database {
          System.out.println("Record Failed to Delete");
          System.out.println(e);
          }
+         Disconnect();
          return success;
      }
      
@@ -504,6 +508,7 @@ public class Database {
      {
          boolean success = false;
          try{
+         Connect("localhost",27017); 
          DBCollection collection = getCollection(collectionSelected);
          
          collection.update(new BasicDBObject("_id",new ObjectId(id)), record);
@@ -512,12 +517,13 @@ public class Database {
          }catch(MongoException e)
          {System.out.println("System could not update record");  
          System.out.println(e);}
-         
+         Disconnect();
          return success;
      }
      
      public ArrayList<DBObject> getAllRecords(String collectionName){
-         
+        
+        Connect("localhost",27017); 
         DBCollection collection =  getCollection(collectionName);
         BasicDBObject query = new BasicDBObject();
         ArrayList<DBObject> classroomList = new ArrayList<DBObject>();
@@ -529,7 +535,27 @@ public class Database {
             DBObject classroom = cursor.next();
             classroomList.add(classroom);
         }
-
+        Disconnect();
+        return classroomList;
+         
+     }
+     
+     
+     public ArrayList<DBObject> getRecords(String collectionName, BasicDBObject field){
+        
+        Connect("localhost",27017); 
+        DBCollection collection =  getCollection(collectionName);
+        BasicDBObject query = new BasicDBObject();
+        ArrayList<DBObject> classroomList = new ArrayList<DBObject>();
+       
+        
+        DBCursor cursor = collection.find(query, field);
+        while (cursor.hasNext())
+        {
+            DBObject classroom = cursor.next();
+            classroomList.add(classroom);
+        }
+        Disconnect();
         return classroomList;
          
      }

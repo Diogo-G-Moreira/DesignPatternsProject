@@ -19,7 +19,7 @@ public interface Proxy {
     void updateRecord(BasicDBObject dbo, String collection, String id);
     void deleteRecord(DBObject dbo, String collection);
     
-    void getRecord(DBObject dbo, String collection);
+    ArrayList<DBObject> getRecord(BasicDBObject dbo, String collection);
     ArrayList <DBObject> search(String collection, String search);
     
     ArrayList<DBObject> getAllRecords(String collection);

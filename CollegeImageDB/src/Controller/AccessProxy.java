@@ -25,7 +25,8 @@ public class AccessProxy implements Proxy {
         
         if(account.length() > 0 && password.length()> 0)
         {
-            success = db.validAccount(account, password);
+            success = true;
+            db.validAccount(account, password);
         }
         else{
             System.out.println("Information needs to be given.");
@@ -50,7 +51,7 @@ public class AccessProxy implements Proxy {
     }
 
     @Override
-    public void getRecord(DBObject dbo, String collection) {
+    public ArrayList<DBObject> getRecord(BasicDBObject dbo, String collection) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * @author Diogo
  */
-public class Comment {
+public class Comment extends Message{
     
     String content;
     
@@ -28,28 +28,6 @@ public class Comment {
         
     }
     
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setUserEdited(User userEdited) {
-        this.userEdited = userEdited;
-    }
-
-    public void setCalendar(Date date) {
-        this.date = date;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public User getUserEdited() {
-        return userEdited;
-    }
-
-    public Date getCalendar() {
-        return date;
-    }
+   
     
 }
