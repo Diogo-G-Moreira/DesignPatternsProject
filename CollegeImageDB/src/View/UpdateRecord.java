@@ -5,7 +5,7 @@
  */
 package View;
 
-import Model.Database;
+import Controller.DatabaseProxy;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -25,7 +25,7 @@ public class UpdateRecord extends javax.swing.JFrame {
     /**
      * Creates new form UpdateRecord
      */
-    Database db = new Database();
+    DatabaseProxy dbp = new DatabaseProxy();
     int dataType;
     DBObject selectedObject;
 
@@ -378,7 +378,7 @@ public class UpdateRecord extends javax.swing.JFrame {
                     System.out.println(toolArray);
                     doc.append("$set", new BasicDBObject().append("tools", toolArray));
                 }
-                boolean success = db.update(doc, "school", id);
+                dbp.updateRecord(doc, "school", id);
                 break;
 
             case 2:
@@ -445,6 +445,7 @@ public class UpdateRecord extends javax.swing.JFrame {
                     allComments.add(doc2);
                     doc.put("comments", allComments);
                 }
+                dbp.updateRecord(doc, "images", id);
 
                 break;
 
@@ -486,7 +487,7 @@ public class UpdateRecord extends javax.swing.JFrame {
                     allComments.add(doc2);
                     doc.put("comments", allComments);
                 }
-
+                    dbp.updateRecord(doc, "schoolHardware", id);
                 break;
 
             case 4:
@@ -510,7 +511,7 @@ public class UpdateRecord extends javax.swing.JFrame {
                     allComments.add(doc2);
                     doc.put("comments", allComments);
                 }
-
+                    dbp.updateRecord(doc, "schoolHardware", id);
                 break;
 
         }
@@ -629,16 +630,16 @@ public class UpdateRecord extends javax.swing.JFrame {
                         }
                     }
 
-                    /* ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
+                   ArrayList<DBObject> softwareList = new ArrayList<DBObject>();
                    System.out.println(softwareList);
-                    softwareList = db.getSoftware();
+                    softwareList = dbp.getAllRecords("school");
                     
         DefaultListModel listModel = new DefaultListModel();
         for (int i = 0; i < softwareList.size(); i++) {
 
             System.out.println(softwareList.get(i).get("_id").toString());
             
-        }*/
+        }
                 }
 
                 break;

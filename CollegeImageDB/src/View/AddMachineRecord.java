@@ -315,50 +315,6 @@ public class AddMachineRecord extends javax.swing.JFrame {
         }
         currentState.create();
 
-        /*
-        Object selected = machineStateDropdown.getSelectedItem();
-        switch (selected.toString()) {
-            case "Computer":
-
-            ComputerBuilder pc = new ComputerBuilder();
-            pc.build(machineField.getText(),serialField.getText(), stockField.getText(), macField.getText(), nameField.getText());
-
-            if(commentArea.getText().length()>0)
-            {
-                pc.updateComment(commentArea.getText(),new Date(),null);
-            }
-            pc.addResults();
-            pc = null;
-            break;
-
-            case "Monitor":
-
-            MonitorBuilder screen = new MonitorBuilder();
-            screen.build(machineField.getText(),serialField.getText(), stockField.getText());
-
-            if(commentArea.getText().length()>0)
-            {
-                screen.updateComment(commentArea.getText(),new Date(),null);
-            }
-            screen.addResults();
-            screen = null;
-
-            break;
-
-            case "Printer":
-
-            PrinterBuilder print = new PrinterBuilder();
-            print.build(machineField.getText(),serialField.getText(), stockField.getText());
-
-            if(commentArea.getText().length()>0)
-            {
-                print.updateComment(commentArea.getText(),new Date(),null);
-            }
-            print.addResults();
-            print = null;
-
-            break;
-        }*/
 
         // TODO add your handling code here:
     }//GEN-LAST:event_createButtonActionPerformed
