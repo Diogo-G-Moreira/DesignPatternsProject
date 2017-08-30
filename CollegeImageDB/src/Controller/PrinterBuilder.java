@@ -30,7 +30,7 @@ public class PrinterBuilder implements Builder {
     }
 
     @Override
-    public boolean addResults() {
+    public void addResults() {
         BasicDBObject doc = new BasicDBObject();
         doc.put("machine", hardware.getMachine());
         doc.put("type", hardware.getType());
@@ -53,11 +53,9 @@ public class PrinterBuilder implements Builder {
 
         DatabaseProxy dbp = new DatabaseProxy();
 
-        boolean success = dbp.addRecord(doc, "schoolHardware");
+        dbp.addRecord(doc, "schoolHardware");
 
         dbp = null;
-
-        return success;
     }
     
     

@@ -13,6 +13,6 @@ public interface Builder {
     
     void createObject();
 
-    boolean addResults();
+    void addResults();
     
 }

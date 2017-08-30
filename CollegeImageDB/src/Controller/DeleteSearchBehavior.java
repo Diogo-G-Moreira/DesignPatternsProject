@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import View.SearchRecord;
 import com.mongodb.DBObject;
 import javax.swing.JOptionPane;
 
@@ -48,6 +49,7 @@ public class DeleteSearchBehavior implements SearchBehavior{
                             if (response == JOptionPane.YES_OPTION) {
                                 dbp.deleteRecord(obj, collection);
                             }
+                            new SearchRecord(new DeleteSearchBehavior()).setVisible(true);
     }
     
 }

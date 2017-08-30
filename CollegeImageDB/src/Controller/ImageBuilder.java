@@ -37,7 +37,7 @@ public class ImageBuilder implements Builder {
     }
 
     @Override
-    public boolean addResults() {
+    public void addResults() {
         BasicDBObject doc = new BasicDBObject();
         doc.put("image", imageObj.getImage());
         doc.put("machine", imageObj.getMachine());
@@ -65,11 +65,9 @@ public class ImageBuilder implements Builder {
 
         DatabaseProxy dbp = new DatabaseProxy();
 
-        boolean success = dbp.addRecord(doc, "school");
+      dbp.addRecord(doc, "school");
 
         dbp = null;
-
-        return success;
 
     }
 

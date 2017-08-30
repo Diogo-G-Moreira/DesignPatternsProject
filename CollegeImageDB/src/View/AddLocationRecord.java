@@ -182,7 +182,7 @@ public class AddLocationRecord extends javax.swing.JFrame {
                     builder.updateComment(commentArea.getText(),date , null);
                 } 
                
-                   boolean success = builder.addResults();
+                  builder.addResults();
                 }
 
         // TODO add your handling code here:

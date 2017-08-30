@@ -37,7 +37,7 @@ public class ComputerBuilder implements Builder {
     }
 
     @Override
-    public boolean addResults() {
+    public void addResults() {
         BasicDBObject doc = new BasicDBObject();
         doc.put("machine", hardware.getMachine());
         doc.put("name", hardware.getName());
@@ -97,11 +97,9 @@ public class ComputerBuilder implements Builder {
 
         DatabaseProxy dbp = new DatabaseProxy();
 
-        boolean success = dbp.addRecord(doc, "schoolHardware");
+        dbp.addRecord(doc, "schoolHardware");
 
         dbp = null;
-
-        return success;
 
     }
 

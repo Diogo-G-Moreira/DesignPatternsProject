@@ -28,7 +28,7 @@ public class SoftwareBuilder implements Builder {
     }
 
     @Override
-    public boolean addResults() {
+    public void addResults() {
         BasicDBObject doc = new BasicDBObject();
         doc.put("title", software.getTitle());
         doc.put("version", software.getVersion());
@@ -36,11 +36,9 @@ public class SoftwareBuilder implements Builder {
 
         DatabaseProxy dbp = new DatabaseProxy();
 
-        boolean success = dbp.addRecord(doc, "school");
+        dbp.addRecord(doc, "school");
 
         dbp = null;
-
-        return success;
 
     }
 

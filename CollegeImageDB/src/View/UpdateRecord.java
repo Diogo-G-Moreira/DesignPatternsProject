@@ -6,6 +6,7 @@
 package View;
 
 import Controller.DatabaseProxy;
+import Controller.UpdateSearchBehavior;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -15,6 +16,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -317,7 +319,7 @@ public class UpdateRecord extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         this.setVisible(false);
-        new SearchRecord(1).setVisible(true);
+        new SearchRecord(new UpdateSearchBehavior()).setVisible(true);
 
         // TODO add your handling code here:
     }//GEN-LAST:event_backButtonActionPerformed

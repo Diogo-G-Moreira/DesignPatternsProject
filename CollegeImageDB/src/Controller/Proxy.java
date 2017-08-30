@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public interface Proxy {
     
-    boolean addRecord(DBObject dbo, String collection);
+    void addRecord(DBObject dbo, String collection);
     void updateRecord(BasicDBObject dbo, String collection, String id);
     void deleteRecord(DBObject dbo, String collection);
     

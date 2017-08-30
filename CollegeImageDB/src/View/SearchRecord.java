@@ -5,6 +5,8 @@
  */
 package View;
 
+import Controller.DatabaseProxy;
+import Controller.SearchBehavior;
 import Model.Database;
 import com.mongodb.DBObject;
 import java.awt.event.MouseAdapter;
@@ -22,19 +24,12 @@ import javax.swing.JOptionPane;
  */
 public class SearchRecord extends javax.swing.JFrame {
 
-    int functionType = 1;
+    SearchBehavior behave;
 
-    public void setFunctionType(int functionType) {
-        this.functionType = functionType;
-    }
-
-    public int getFunctionType() {
-        return functionType;
-    }
     /**
      * Creates new form SearchRecord
      */
-    Database db = new Database();
+    DatabaseProxy dbp = new DatabaseProxy();
     DefaultListModel listModel;
     ArrayList<DBObject> searchResults;
 
@@ -42,17 +37,15 @@ public class SearchRecord extends javax.swing.JFrame {
         setup();
     }
 
-    public SearchRecord(int functionType) {
+    public SearchRecord(SearchBehavior behave) {
         setup();
-        this.functionType = functionType;
-        System.out.println(getFunctionType());
+        this.behave = behave;
     }
 
     public void setup() {
-        boolean status = db.Connect("localhost", 27017);
         initComponents();
 
-        Set<String> collections = db.getAllCollections();
+        Set<String> collections = dbp.getAllCollections();
 
         collectionsList.addItem("");
         for (String coll : collections) {
@@ -70,90 +63,9 @@ public class SearchRecord extends javax.swing.JFrame {
                     if (index >= 0) {
                         DBObject selectedObject = searchResults.get(index);
                         System.out.println(selectedObject);
-
-                        if (getFunctionType() == 0) {
-                            int dataType = 0;
-                            if (collectionsList.getSelectedItem().toString().equals("school")) {
-                                dataType = 1;
-                            }
-
-                            if (collectionsList.getSelectedItem().toString().equals("schoolHardware")) {
-                                dataType = 3;
-                            }
-
-                            if (collectionsList.getSelectedItem().toString().equals("schoolLocation")) {
-                                dataType = 4;
-                            }
-
-                            if (collectionsList.getSelectedItem().toString().equals("images")) {
-                                dataType = 2;
-                            }
-                            if (dataType != 0) {
-                                moveToView(selectedObject,dataType );
-                            } else {
-                                System.out.println(dataType);
-                            }
-
-                        }
-
-                        if (getFunctionType() == 1) {
-                                                        int dataType = 0;
-                            if (collectionsList.getSelectedItem().toString().equals("school")) {
-                                dataType = 1;
-                            }
-
-                            if (collectionsList.getSelectedItem().toString().equals("schoolHardware")) {
-                                dataType = 3;
-                            }
-
-                            if (collectionsList.getSelectedItem().toString().equals("schoolLocation")) {
-                                dataType = 4;
-                            }
-
-                            if (collectionsList.getSelectedItem().toString().equals("images")) {
-                                dataType = 2;
-                            }
-                            if (dataType != 0) {
-                                moveToUpdate(selectedObject, dataType);
-                            } else {
-                                System.out.println(dataType);
-                            }
-                            
-                        }
-
-                        if (getFunctionType() == 2) {
-                            String msg = "<html>Are you sure you wish to delete this record?<br>";
-                            if (collectionsList.getSelectedItem().toString().equals("school")) {
-                                msg += "Software: " + selectedObject.get("title") + "<br> Version: " + selectedObject.get("version");
-                            }
-                            if (collectionsList.getSelectedItem().toString().equals("schoolHardware")) {
-                                msg += "Machine: " + selectedObject.get("machine") + "<br> Name: " + selectedObject.get("name")
-                                        + "<br> Serial: " + selectedObject.get("serial")
-                                        + "<br> Stock: " + selectedObject.get("stock")
-                                        + "<br> MAC: " + selectedObject.get("mac");
-                                if (selectedObject.get("monitor") != null) {
-                                    msg += "<br> Monitor: " + selectedObject.get("monitor.monitor")
-                                            + "<br> Monitor Serial: " + selectedObject.get("monitor.mserial")
-                                            + "<br> Monitor Stock: " + selectedObject.get("monitor.mstock");
-                                }
-                            }
-
-                            if (collectionsList.getSelectedItem().toString().equals("schoolLocation")) {
-                                msg += "Classroom: " + selectedObject.get("classroom") + "<br> Version: " + selectedObject.get("version")
-                                        + "<br> Video Conferening: " + selectedObject.get("videoconferencing");
-                            }
-
-                            if (collectionsList.getSelectedItem().toString().equals("images")) {
-                                msg += "Image: " + selectedObject.get("image") + "<br> Machine: " + selectedObject.get("machine")
-                                        + "<br> Location: " + selectedObject.get("location");
-                            }
-
-                            int response = JOptionPane.showConfirmDialog(null, msg, "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                            if (response == JOptionPane.YES_OPTION) {
-                                db.delete(selectedObject, collectionsList.getSelectedItem().toString());
-                            }
-                        }
-
+                        
+                        behave.PerformAction(selectedObject, collectionsList.getSelectedItem().toString());
+                        closeWindow();
                     }
 
                 }
@@ -258,7 +170,7 @@ public class SearchRecord extends javax.swing.JFrame {
         listModel = new DefaultListModel();
         switch (selected.toString()) {
             case "school":
-                searchResults = db.getSoftware();
+                searchResults = dbp.getAllRecords("school");
                 for (int i = 0; i < searchResults.size(); i++) {
                     String option = searchResults.get(i).get("title").toString() + " - "
                             + searchResults.get(i).get("version").toString();
@@ -270,7 +182,7 @@ public class SearchRecord extends javax.swing.JFrame {
 
                 break;
             case "schoolLocation":
-                searchResults = db.getLocation();
+                searchResults = dbp.getAllRecords("schoolLocation");
                 for (int i = 0; i < searchResults.size(); i++) {
                     String option = searchResults.get(i).get("classroom").toString();
                     listModel.addElement(option);
@@ -280,7 +192,7 @@ public class SearchRecord extends javax.swing.JFrame {
                 break;
 
             case "schoolHardware":
-                searchResults = db.getHardware();
+                searchResults = dbp.getAllRecords("schoolHardware");
                 for (int i = 0; i < searchResults.size(); i++) {
                     String option = searchResults.get(i).get("machine").toString() + " - "
                             + searchResults.get(i).get("name").toString() + " - "
@@ -293,7 +205,7 @@ public class SearchRecord extends javax.swing.JFrame {
                 break;
 
             case "images":
-                searchResults = db.getImage();
+                searchResults = dbp.getAllRecords("images");
                 for (int i = 0; i < searchResults.size(); i++) {
                     String option = searchResults.get(i).get("image").toString();
 
@@ -322,7 +234,7 @@ public class SearchRecord extends javax.swing.JFrame {
         searchResults = new ArrayList<DBObject>();
         listModel.removeAllElements();
         listModel.clear();
-        searchResults = db.Search(collectionsList.getSelectedItem().toString(), searchField.getText().toString());
+        searchResults = dbp.search(collectionsList.getSelectedItem().toString(), searchField.getText().toString());
 
         ArrayList<String> secondList = new ArrayList<String>();
         if (collectionsList.getSelectedItem().toString().equals("school")) {
@@ -369,6 +281,11 @@ public class SearchRecord extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchButtonActionPerformed
 
+    public void closeWindow(){
+        this.setVisible(false);
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -402,18 +319,6 @@ public class SearchRecord extends javax.swing.JFrame {
                 new SearchRecord().setVisible(true);
             }
         });
-    }
-
-    public void moveToUpdate(DBObject selectedObject, int dataType) {
-        this.setVisible(false);
-        new UpdateRecord(dataType, selectedObject).setVisible(true);
-
-    }
-
-    public void moveToView(DBObject selectedObject, int dataType) {
-        this.setVisible(false);
-        new ViewRecord(dataType, selectedObject).setVisible(true);
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

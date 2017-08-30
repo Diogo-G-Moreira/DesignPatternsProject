@@ -30,7 +30,7 @@ public class MonitorBuilder implements Builder{
     }
 
     @Override
-    public boolean addResults() {
+    public void addResults() {
 
         BasicDBObject doc = new BasicDBObject();
         doc.put("machine", hardware.getMachine());
@@ -54,11 +54,9 @@ public class MonitorBuilder implements Builder{
 
         DatabaseProxy dbp = new DatabaseProxy();
 
-        boolean success = dbp.addRecord(doc, "schoolHardware");
+       dbp.addRecord(doc, "schoolHardware");
 
         dbp = null;
-
-        return success;
 
     }
     

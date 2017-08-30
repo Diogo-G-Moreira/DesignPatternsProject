@@ -9,6 +9,8 @@ import Model.Database;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import java.util.ArrayList;
+import java.util.Set;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,30 +22,44 @@ public class DatabaseProxy implements Proxy {
     
     
     @Override
-    public boolean addRecord(DBObject dbo, String collection)
+    public void addRecord(DBObject dbo, String collection)
     {
         boolean success = false;
         if (dbo != null && collection != null)
         {
            success = db.add(dbo, collection);
+           if(success == true)
+           {
+                JOptionPane.showMessageDialog(null,"Add Record was Successful!","ADD Status",JOptionPane.PLAIN_MESSAGE);
+           }
+           else{
+               JOptionPane.showMessageDialog(null,"Add Record Failed,","ADD Status",JOptionPane.PLAIN_MESSAGE);
+           }
+          
         }
         else{
-            System.out.println("One of the parameters is null. -" + dbo.toString() + "  -" + collection );
+            JOptionPane.showMessageDialog(null,"Add Record Failed, One of the parameters is null. -" + dbo.toString() + "  -" + collection,"ADD Status",JOptionPane.PLAIN_MESSAGE);
         }
-        
-        return success;
         
     }
     
     @Override
     public void updateRecord(BasicDBObject dbo, String collection, String id)
     {
+        boolean success = false;
         if (dbo != null && collection != null && id != null)
         {
-            db.update(dbo, collection, id);
+            success = db.update(dbo, collection, id);
+            if(success == true)
+            {
+                JOptionPane.showMessageDialog(null,"Update was Successful!","Update Status",JOptionPane.PLAIN_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null,"Update Failed","Update Status",JOptionPane.PLAIN_MESSAGE);
+            }
+            
         }
         else{
-            System.out.println("One of the parameters is null. -" + dbo.toString() + "  -" + collection + "  -" + id );
+            JOptionPane.showMessageDialog(null,"Update Failed, One of the parameters is null. -" + dbo.toString() + "  -" + collection + "  -" + id,"Update Status",JOptionPane.PLAIN_MESSAGE);
         }
         
     }
@@ -51,12 +67,20 @@ public class DatabaseProxy implements Proxy {
     @Override
     public void deleteRecord(DBObject dbo, String collection)
     {
+        boolean success = false;
         if (dbo != null && collection != null)
         {
-            db.delete(dbo, collection);
+            success = db.delete(dbo, collection);
+            if(success == true)
+            {
+                JOptionPane.showMessageDialog(null,"Delete was Successful!","Delete Status",JOptionPane.PLAIN_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null,"Delete Failed","Delete Status",JOptionPane.PLAIN_MESSAGE);
+            }
+            
         }
         else{
-            System.out.println("One of the parameters is null. -" + dbo.toString() + "  -" + collection );
+            JOptionPane.showMessageDialog(null,"Delete Failed, One of the parameters is null. -" + dbo.toString() + "  -" + collection,"Delete Status",JOptionPane.PLAIN_MESSAGE);
         }
         
     }
@@ -108,7 +132,12 @@ public class DatabaseProxy implements Proxy {
     }
 
     
-    
+    public Set<String> getAllCollections()
+    {
+        Set<String> results= db.getAllCollections();
+        
+        return results;
+    }
     
     
     

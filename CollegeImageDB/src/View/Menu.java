@@ -5,6 +5,10 @@
  */
 package View;
 
+import Controller.DeleteSearchBehavior;
+import Controller.UpdateSearchBehavior;
+import Controller.ViewSearchBehavior;
+
 /**
  *
  * @author Diogo
@@ -125,7 +129,7 @@ public class Menu extends javax.swing.JFrame {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         
         this.setVisible(false);
-        new SearchRecord(1).setVisible(true);
+        new SearchRecord(new UpdateSearchBehavior()).setVisible(true);
 
 
         // TODO add your handling code here:
@@ -140,13 +144,13 @@ public class Menu extends javax.swing.JFrame {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        new SearchRecord(2).setVisible(true);
+        new SearchRecord(new DeleteSearchBehavior()).setVisible(true);
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
                 this.setVisible(false);
-        new SearchRecord(0).setVisible(true);
+        new SearchRecord(new ViewSearchBehavior()).setVisible(true);
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed

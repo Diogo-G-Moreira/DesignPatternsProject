@@ -36,7 +36,7 @@ public class AccessProxy implements Proxy {
     }
 
     @Override
-    public boolean addRecord(DBObject dbo, String collection) {
+    public void addRecord(DBObject dbo, String collection) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

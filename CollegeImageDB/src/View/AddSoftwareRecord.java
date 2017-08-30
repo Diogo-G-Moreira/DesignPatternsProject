@@ -198,8 +198,7 @@ public class AddSoftwareRecord extends javax.swing.JFrame {
             else{
                 SoftwareBuilder build = new SoftwareBuilder();
                 build.build(titleField.getText().toString(), versionField.getText().toString(), tools);
-                boolean success = build.addResults();
-                System.out.println(success);
+               build.addResults();
             }
         // TODO add your handling code here:
     }//GEN-LAST:event_createButtonActionPerformed

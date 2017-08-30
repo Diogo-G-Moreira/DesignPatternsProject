@@ -5,6 +5,8 @@
  */
 package View;
 
+import Controller.DatabaseProxy;
+import Controller.ViewSearchBehavior;
 import Model.Database;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -23,7 +25,7 @@ public class ViewRecord extends javax.swing.JFrame {
     /**
      * Creates new form UpdateRecord
      */
-    Database db = new Database();
+    DatabaseProxy dbp = new DatabaseProxy();
     int dataType;
     ArrayList <String> comments; 
     int currentComment = 0;
@@ -333,7 +335,7 @@ public class ViewRecord extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         this.setVisible(false);
-        new SearchRecord(0).setVisible(true);
+        new SearchRecord(new ViewSearchBehavior()).setVisible(true);
 
         // TODO add your handling code here:
     }//GEN-LAST:event_backButtonActionPerformed
@@ -411,6 +413,8 @@ public class ViewRecord extends javax.swing.JFrame {
                 jScrollPane1.setVisible(false);
                 jScrollPane2.setVisible(false);
                 labelDropdown.setVisible(false);
+                nextButton.setVisible(false);
+                prevButton.setVisible(false);
 
                 if (selectedObject != null) {
                     text1.setText(selectedObject.get("title").toString());
@@ -492,7 +496,7 @@ public class ViewRecord extends javax.swing.JFrame {
                     }
                    ArrayList<DBObject> softwareList;
                    //System.out.println(softwareList);
-                    softwareList = db.getSoftware();
+                    softwareList = dbp.getAllRecords("school");
                     
         DefaultListModel listModel = new DefaultListModel();
         for (int i = 0; i < softwareList.size(); i++) {

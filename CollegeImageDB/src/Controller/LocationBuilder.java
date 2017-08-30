@@ -33,7 +33,7 @@ public class LocationBuilder implements Builder {
     }
 
     @Override
-    public boolean addResults() {
+    public void addResults() {
         BasicDBObject doc = new BasicDBObject();
         doc.put("classroom", location.getClassroom());
         doc.put("location", location.getCapacity());
@@ -55,11 +55,9 @@ public class LocationBuilder implements Builder {
 
         DatabaseProxy dbp = new DatabaseProxy();
 
-        boolean success = dbp.addRecord(doc, "schoolLocation");
+       dbp.addRecord(doc, "schoolLocation");
 
         dbp = null;
-
-        return success;
 
     }
 
