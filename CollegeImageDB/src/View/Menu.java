@@ -5,9 +5,14 @@
  */
 package View;
 
+import Controller.AccessProxy;
+import Controller.DatabaseProxy;
 import Controller.DeleteSearchBehavior;
 import Controller.UpdateSearchBehavior;
 import Controller.ViewSearchBehavior;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,6 +25,18 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
+        BasicDBObject query = new BasicDBObject();
+        query.put("loggedin", true);
+        DatabaseProxy dp = new DatabaseProxy();
+        ArrayList<DBObject> users = new ArrayList<DBObject>();
+        users = dp.getRecord(query, "accounts");
+        System.out.println(users.get(0));
+        if(users.get(0).get("privilege").toString().equals("student") || users.get(0).get("privilege").toString().equals("STAFF"))
+        {
+            addButton.setVisible(false);
+            updateButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
     }
 
     /**
@@ -157,6 +174,8 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
                         
        this.setVisible(false);
+       AccessProxy ap = new AccessProxy();
+       ap.Logout();
        new LoginPage().setVisible(true);
         
     }//GEN-LAST:event_logoutButtonActionPerformed

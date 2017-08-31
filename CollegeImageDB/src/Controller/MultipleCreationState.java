@@ -5,7 +5,6 @@
  */
 package Controller;
 
-import Model.User;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -23,7 +22,7 @@ public class MultipleCreationState implements CreationState {
     }
 
     @Override
-    public void addComment(String content, Date date, User user) {
+    public void addComment(String content, Date date, String user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

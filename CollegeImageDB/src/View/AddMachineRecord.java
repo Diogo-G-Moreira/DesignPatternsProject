@@ -8,12 +8,16 @@ package View;
 import Controller.ComputerBuilder;
 import Controller.ComputerCreationState;
 import Controller.CreationState;
+import Controller.DatabaseProxy;
 import Controller.MonitorBuilder;
 import Controller.MonitorCreationState;
 import Controller.MultipleCreationState;
 import Controller.PrinterBuilder;
 import Controller.PrinterCreationState;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -311,7 +315,13 @@ public class AddMachineRecord extends javax.swing.JFrame {
         currentState.build(machineField.getText(),serialField.getText(), stockField.getText(), macField.getText(), nameField.getText());
         if(commentArea.getText().length()>0)
         {
-            currentState.addComment(commentArea.getText(),new Date(),null);
+            Date date = new Date();
+                DatabaseProxy dp = new DatabaseProxy();
+                ArrayList<DBObject> users = new ArrayList<DBObject>();
+                BasicDBObject dbo = new BasicDBObject("loggedIn",true);
+                users = dp.getRecord(dbo, "acoounts");
+                dp = null;
+            currentState.addComment(commentArea.getText(),new Date(),users.get(0).get("account").toString());
         }
         currentState.create();
 

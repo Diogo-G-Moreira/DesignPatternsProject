@@ -8,7 +8,6 @@ package Controller;
 import Model.Comment;
 import Model.Computer;
 import Model.Image;
-import Model.User;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import java.util.ArrayList;
@@ -95,7 +94,7 @@ public class ImageBuilder implements Builder {
     }
 
     
-    public void updateComment(String content, Date date, User user)
+    public void updateComment(String content, Date date, String user)
     {
         Comment comment = new Comment(content, user, date);
         imageObj.addComment(comment);

@@ -7,6 +7,7 @@ package View;
 
 import Controller.DatabaseProxy;
 import Controller.ImageBuilder;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import java.util.ArrayList;
 import java.util.Date;
@@ -343,7 +344,12 @@ public class AddImageRecord extends javax.swing.JFrame {
 
             if (commentTextArea.getText().length() > 0) {
                 Date date = new Date();
-                im.updateComment(commentTextArea.getText(), date, null);
+                DatabaseProxy dp = new DatabaseProxy();
+                ArrayList<DBObject> users = new ArrayList<DBObject>();
+                BasicDBObject dbo = new BasicDBObject("loggedIn",true);
+                users = dp.getRecord(dbo, "acoounts");
+                dp = null;
+                im.updateComment(commentTextArea.getText(), date, users.get(0).get("account").toString());
             }
             im.createObject();
             im = null;

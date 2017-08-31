@@ -8,7 +8,6 @@ package Controller;
 import Model.Comment;
 import Model.Hardware;
 import Model.Printer;
-import Model.User;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,7 +72,7 @@ public class PrinterBuilder implements Builder {
     }
     
 
-        public void updateComment(String content, Date date, User user)
+        public void updateComment(String content, Date date, String user)
     {
         Comment comment = new Comment(content, user, date);
         hardware.addComment(comment);

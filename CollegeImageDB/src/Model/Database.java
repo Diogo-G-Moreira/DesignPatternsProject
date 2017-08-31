@@ -82,6 +82,13 @@ public class Database {
             if(cursor.hasNext() == true)
             {
                 results = true;
+                String id = cursor.next().get("_id").toString();
+                System.out.println(id);
+                 
+                query = new BasicDBObject().append("_id",new ObjectId(id));
+                field = new BasicDBObject();
+                field.append("$set", new BasicDBObject().append("loggedin",true));
+                collection.update(query, field);
                 
             }
                 
@@ -94,6 +101,23 @@ public class Database {
          Disconnect();
         return results;
     }
+    
+    public void Logout ()
+    {
+         boolean connect = Connect("localhost",27017);
+         DBCollection collection =  getCollection("accounts");
+         
+         BasicDBObject query = new BasicDBObject().append("loggedin", true);
+          BasicDBObject field = new BasicDBObject();
+         field.append("$set", new BasicDBObject().append("loggedin",false));
+         collection.update(query, field);
+         
+         Disconnect();
+         System.out.println("End Logout");
+    }
+    
+    
+    
  
     public Set<String> getAllCollections()
     {
@@ -240,15 +264,16 @@ public class Database {
      }
      
      
-     public ArrayList<DBObject> getRecords(String collectionName, BasicDBObject field){
+     public ArrayList<DBObject> getRecords(String collectionName, BasicDBObject query){
         
         Connect("localhost",27017); 
         DBCollection collection =  getCollection(collectionName);
-        BasicDBObject query = new BasicDBObject();
+       
         ArrayList<DBObject> classroomList = new ArrayList<DBObject>();
        
         
-        DBCursor cursor = collection.find(query, field);
+        DBCursor cursor = collection.find(query);
+        System.out.println(cursor.hasNext());
         while (cursor.hasNext())
         {
             DBObject classroom = cursor.next();

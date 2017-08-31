@@ -5,7 +5,6 @@
  */
 package Controller;
 
-import Model.User;
 import java.util.Date;
 
 /**
@@ -25,7 +24,7 @@ public class PrinterCreationState implements CreationState {
     }
 
     @Override
-    public void addComment(String content, Date date, User user) {
+    public void addComment(String content, Date date, String user) {
         builder.updateComment(content, date, user);
     }
 

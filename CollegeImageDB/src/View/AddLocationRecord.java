@@ -5,7 +5,11 @@
  */
 package View;
 
+import Controller.DatabaseProxy;
 import Controller.LocationBuilder;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -179,7 +183,12 @@ public class AddLocationRecord extends javax.swing.JFrame {
                     builder.build(classroomField.getText().toString(), capacityField.getText().toString(), video);
                 if (commentArea.getText() != null || !commentArea.getText().isEmpty()) {
                     Date date = new Date();
-                    builder.updateComment(commentArea.getText(),date , null);
+                DatabaseProxy dp = new DatabaseProxy();
+                ArrayList<DBObject> users = new ArrayList<DBObject>();
+                BasicDBObject dbo = new BasicDBObject("loggedIn",true);
+                users = dp.getRecord(dbo, "acoounts");
+                dp = null;
+                builder.updateComment(commentArea.getText(), date, users.get(0).get("account").toString());
                 } 
                
                   builder.addResults();

@@ -23,9 +23,11 @@ public class AccessProxy implements Proxy {
         
         boolean success = false;
         
+        
         if(account.length() > 0 && password.length()> 0)
         {
             success = true;
+            Logout();
             db.validAccount(account, password);
         }
         else{
@@ -33,6 +35,10 @@ public class AccessProxy implements Proxy {
         }
         
         return success;
+    }
+    
+    public void Logout(){
+        db.Logout();
     }
 
     @Override

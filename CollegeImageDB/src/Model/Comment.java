@@ -16,11 +16,11 @@ public class Comment extends Message{
     
     String content;
     
-    User userEdited;
+    String userEdited;
     
     Date date;
 
-    public Comment(String content, User userEdited, Date date)
+    public Comment(String content, String userEdited, Date date)
     {
         this.content = content;
         this.userEdited = userEdited;

@@ -5,7 +5,6 @@
  */
 package Controller;
 
-import Model.User;
 import java.util.Date;
 
 /**
@@ -18,7 +17,7 @@ public interface CreationState {
            
            public void build (String machine, String serial, String stock, String name, String mac);
            
-           public void addComment(String content, Date date, User user);
+           public void addComment(String content, Date date, String user);
            
            public void create();
            

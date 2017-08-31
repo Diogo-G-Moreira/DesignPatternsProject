@@ -7,7 +7,6 @@ package Controller;
 
 import Model.Comment;
 import Model.Location;
-import Model.User;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,7 +68,7 @@ public class LocationBuilder implements Builder {
         createObject();
     }
     
-    public void updateComment(String content, Date date, User user)
+    public void updateComment(String content, Date date, String user)
     {
         Comment comment = new Comment(content, user, date);
         location.addComment(comment);

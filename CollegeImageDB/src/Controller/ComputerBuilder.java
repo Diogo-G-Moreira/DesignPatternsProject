@@ -8,7 +8,6 @@ package Controller;
 import Model.Comment;
 import Model.Computer;
 import Model.Hardware;
-import Model.User;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import java.text.SimpleDateFormat;
@@ -125,7 +124,7 @@ public class ComputerBuilder implements Builder {
         }
     }
     
-    public void updateComment(String content, Date date, User user)
+    public void updateComment(String content, Date date, String user)
     {
         Comment comment = new Comment(content, user, date);
         hardware.addComment(comment);
