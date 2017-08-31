@@ -7,12 +7,14 @@ package View;
 
 import Controller.DatabaseProxy;
 import Controller.UpdateSearchBehavior;
+import Model.Email;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -381,6 +383,9 @@ public class UpdateRecord extends javax.swing.JFrame {
                     doc.append("$set", new BasicDBObject().append("tools", toolArray));
                 }
                 dbp.updateRecord(doc, "school", id);
+                SendEmails();
+                
+                
                 break;
 
             case 2:
@@ -448,7 +453,7 @@ public class UpdateRecord extends javax.swing.JFrame {
                     doc.put("comments", allComments);
                 }
                 dbp.updateRecord(doc, "images", id);
-
+                SendEmails();
                 break;
 
             case 3:
@@ -490,6 +495,7 @@ public class UpdateRecord extends javax.swing.JFrame {
                     doc.put("comments", allComments);
                 }
                     dbp.updateRecord(doc, "schoolHardware", id);
+                    SendEmails();
                 break;
 
             case 4:
@@ -514,6 +520,7 @@ public class UpdateRecord extends javax.swing.JFrame {
                     doc.put("comments", allComments);
                 }
                     dbp.updateRecord(doc, "schoolHardware", id);
+                    SendEmails();
                 break;
 
         }
@@ -733,6 +740,16 @@ public class UpdateRecord extends javax.swing.JFrame {
         }
     }
 
+    private void SendEmails()
+    {
+        BasicDBObject docEmail = new BasicDBObject();
+                docEmail.put("loggedin",true);
+               ArrayList <DBObject> users = dbp.getRecord(docEmail, "accounts");
+               Date date = new Date();
+                Email email = new Email("Update Done on Record " + text1.getText(),users.get(0).get("account").toString(),date );
+                email.prepare();
+    }
+    
     private void setUpForm() {
         DBObject newObject = null;
         setUpForm(newObject);

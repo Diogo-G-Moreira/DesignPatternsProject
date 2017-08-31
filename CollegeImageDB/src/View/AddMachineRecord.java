@@ -35,7 +35,19 @@ public class AddMachineRecord extends javax.swing.JFrame {
      */
     public AddMachineRecord() {
         initComponents();
-
+                nameField.setVisible(true);
+                 macField.setVisible(true);
+                 nameLabel.setVisible(true);
+                 macLabel.setVisible(true);
+                 addComponentsButton.setVisible(true);
+                 addButton.setVisible(false);
+                 nameField.setEnabled(true);
+                 macField.setEnabled(true);
+                 nameLabel.setEnabled(true);
+                 macLabel.setEnabled(true);
+                 addComponentsButton.setEnabled(true);
+                 
+                 currentState = new ComputerCreationState();
     }
 
     /**
@@ -316,12 +328,13 @@ public class AddMachineRecord extends javax.swing.JFrame {
         if(commentArea.getText().length()>0)
         {
             Date date = new Date();
-                DatabaseProxy dp = new DatabaseProxy();
+            BasicDBObject query = new BasicDBObject();
+                query.put("loggedin", true);
+             DatabaseProxy dp = new DatabaseProxy();
                 ArrayList<DBObject> users = new ArrayList<DBObject>();
-                BasicDBObject dbo = new BasicDBObject("loggedIn",true);
-                users = dp.getRecord(dbo, "acoounts");
-                dp = null;
+                users = dp.getRecord(query, "accounts");
             currentState.addComment(commentArea.getText(),new Date(),users.get(0).get("account").toString());
+            dp = null;
         }
         currentState.create();
 
